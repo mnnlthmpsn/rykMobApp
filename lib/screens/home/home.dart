@@ -1,17 +1,18 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:royalkitchen/bloc/customer_bloc.dart';
 import 'package:royalkitchen/bloc/favorite_bloc.dart';
 import 'package:royalkitchen/bloc/food_bloc.dart';
 import 'package:royalkitchen/config/colors.dart';
-import 'package:royalkitchen/repos/customer_repo.dart';
-import 'package:royalkitchen/repos/favorite_repo.dart';
-import 'package:royalkitchen/repos/food_repo.dart';
+import 'package:royalkitchen/events/customer_event.dart';
+import 'package:royalkitchen/events/favorite_event.dart';
+import 'package:royalkitchen/events/food_event.dart';
+import 'package:royalkitchen/models/customer_model.dart';
+import 'package:royalkitchen/screens/basket/basket.dart';
 import 'package:royalkitchen/screens/favorites/favorites.dart';
 import 'package:royalkitchen/screens/foods/foods.dart';
 import 'package:royalkitchen/screens/home/navbarItems.dart';
+import 'package:royalkitchen/utils/helpers.js.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -22,13 +23,24 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
+  late Customer customer;
 
   final PageController _pageController = PageController();
 
-  // blocs
-  FoodBloc foodBloc = FoodBloc(foodRepository: FoodRepository());
-  FavoriteBloc favoriteBloc = FavoriteBloc(favoriteRepo: FavoriteRepository());
-  CustomerBloc customerBloc = CustomerBloc(customerRepo: CustomerRepository());
+  @override
+  void initState() {
+    getCustomerDetails();
+    super.initState();
+  }
+
+  getCustomerDetails() async {
+    customer = await getCustomerFromLocalStorage();
+
+    //  now get customer favorite items
+    context
+        .read<FavoriteBloc>()
+        .add(GetAllFavorites(custEmail: customer.email));
+  }
 
   @override
   void dispose() {
@@ -46,33 +58,29 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider.value(value: foodBloc),
-          BlocProvider.value(value: favoriteBloc),
-          BlocProvider.value(value: customerBloc)
-        ],
-        child: Scaffold(
-            body: SizedBox.expand(
-              child: PageView(
-                controller: _pageController,
-                onPageChanged: (index) =>
-                    setState(() => _selectedIndex = index),
-                children: <Widget>[
-                  const Foods(),
-                  Container(color: Colors.green),
-                  const Favorites(),
-                  Container(color: Colors.black)
-                ],
-              ),
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              enableFeedback: true,
-              currentIndex: _selectedIndex,
-              selectedItemColor: KColors.kSecondaryColor,
-              unselectedItemColor: Colors.white,
-              onTap: onItemTapped,
-              items: navItems.map((item) => item).toList(),
-            )));
+    // get all foods
+    context.read<FoodBloc>().add(GetAllFoods());
+
+    return Scaffold(
+        body: SizedBox.expand(
+          child: PageView(
+            controller: _pageController,
+            onPageChanged: (index) => setState(() => _selectedIndex = index),
+            children: <Widget>[
+              const Foods(),
+              const Basket(),
+              const Favorites(),
+              Container(color: Colors.black)
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          enableFeedback: true,
+          currentIndex: _selectedIndex,
+          selectedItemColor: KColors.kSecondaryColor,
+          unselectedItemColor: Colors.white,
+          onTap: onItemTapped,
+          items: navItems.map((item) => item).toList(),
+        ));
   }
 }

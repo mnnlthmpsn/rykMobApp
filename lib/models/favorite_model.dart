@@ -1,12 +1,23 @@
+import 'package:royalkitchen/models/food_model.dart';
+import 'package:royalkitchen/repos/favorite_repo.dart';
+
 class Favorite {
   final int? id;
-  final int foodId;
+  final Food food;
   final String customer;
 
-  Favorite({ required this.id, required this.foodId, required this.customer });
+  Favorite({required this.id, required this.food, required this.customer});
 
   Favorite.fromJson(dynamic json)
-    : id = json['id'],
-      foodId = json['attributes']['food']['data']['id'],
-      customer = json['attributes']['customer'];
+      : id = json['id'],
+        food = Food(
+            json['attributes']['food']['data']['id'],
+            json['attributes']['food']['data']['attributes']['name'],
+            json['attributes']['food']['data']['attributes']['description'],
+            double.parse(json['attributes']['food']['data']['attributes']
+                    ['price']
+                .toString()),
+            json['attributes']['food']['data']['attributes']['available'],
+            json['attributes']['food']['data']['attributes']['image']),
+        customer = json['attributes']['customer'];
 }

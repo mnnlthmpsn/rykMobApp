@@ -11,13 +11,12 @@ class Splash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return AnimatedSplashScreen.withScreenFunction(
         splash: const Icon(Icons.home, color: Colors.white, size: 80),
         screenFunction: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           bool firstTime = (prefs.getBool('first_time') ?? true);
-          print(firstTime);
+
           return firstTime ? OnBoarding() : const Home();
         },
         splashTransition: SplashTransition.fadeTransition,

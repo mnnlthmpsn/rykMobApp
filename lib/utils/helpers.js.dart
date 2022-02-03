@@ -33,8 +33,9 @@ Future showToast(context, status, message) {
             color: Colors.white,
           ),
           title: status.toString().toUpperCase(),
+          titleSize: 14,
           message: message,
-          messageSize: 16,
+          messageSize: 12,
           duration: const Duration(seconds: 3))
       .show(context);
 }
@@ -53,7 +54,6 @@ dynamic storeInLocalStorage(key, val, type) async {
         var temp_val;
 
         // do not trim other names ('could be two names')
-
         key == 'other_names' ? temp_val = val : temp_val = val.trim();
         await prefs.setString(key, temp_val);
       }

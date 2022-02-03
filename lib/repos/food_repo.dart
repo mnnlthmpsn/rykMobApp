@@ -14,4 +14,15 @@ class FoodRepository {
         .catchError((err) => {});
     return (res['data'] as List).map((food) => Food.fromJson(food)).toList();
   }
+
+  Future<Food> getFoodByID(String foodID) async {
+    return await http
+        .get(Uri.parse(
+            '$url?populate=image&fields=name,description,price,discount,available&filters[id]=$foodID'))
+        .then((res) {
+      dynamic temp = jsonDecode(res.body);
+      Food food = Food.fromJson(temp['data'][0]);
+      return food;
+    }).catchError(() {});
+  }
 }

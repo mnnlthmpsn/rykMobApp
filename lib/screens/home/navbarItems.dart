@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:royalkitchen/bloc/customer_bloc.dart';
 import 'package:royalkitchen/bloc/favorite_bloc.dart';
 import 'package:royalkitchen/config/colors.dart';
 import 'package:badges/badges.dart';
+import 'package:royalkitchen/events/favorite_event.dart';
 import 'package:royalkitchen/repos/favorite_repo.dart';
 import 'package:royalkitchen/states/favorite_state.dart';
 

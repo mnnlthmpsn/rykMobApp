@@ -16,8 +16,10 @@ import 'package:royalkitchen/utils/helpers.js.dart';
 
 class FoodCard extends StatefulWidget {
   final Food food;
+  final String category;
 
-  const FoodCard({Key? key, required this.food}) : super(key: key);
+  const FoodCard({Key? key, required this.food, this.category = 'GNR'})
+      : super(key: key);
 
   @override
   State<FoodCard> createState() => _FoodCardState();
@@ -36,11 +38,11 @@ class _FoodCardState extends State<FoodCard> {
 
   @override
   Widget build(BuildContext context) {
-    return foodCard(context, widget.food);
+    return foodCard(context, widget.food, widget.category);
   }
 }
 
-Widget foodCard(context, Food food) {
+Widget foodCard(context, Food food, String category) {
   return SizedBox(
     width: double.infinity,
     child: Column(
@@ -53,7 +55,7 @@ Widget foodCard(context, Food food) {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               _foodDetails(context, food),
-              _foodActions(context, food)
+              _foodActions(context, food, category)
             ],
           ),
         )
@@ -75,39 +77,48 @@ Widget _foodImage(context, Food food) {
 }
 
 Widget _foodDetails(context, Food food) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(food.name,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-      Text.rich(TextSpan(text: 'GHS ', children: <InlineSpan>[
-        TextSpan(
-            text: food.price.toString(), style: const TextStyle(fontSize: 16))
-      ]))
-    ],
+  return Expanded(
+    flex: 2,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(food.name,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text.rich(TextSpan(text: 'GHS ', children: <InlineSpan>[
+          TextSpan(
+              text: food.price.toString(), style: const TextStyle(fontSize: 14))
+        ]))
+      ],
+    ),
   );
 }
 
-Widget _foodActions(BuildContext context, Food food) {
-  return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-    IconButton(
-        onPressed: () =>
-            showToast(context, 'success', 'Item added successfully'),
-        icon: const Icon(Icons.shopping_basket),
-        padding: const EdgeInsets.all(1),
-        color: KColors.kTextColorDark,
-        enableFeedback: true),
-    IconButton(
-        onPressed: () {
-          String customer = context.read<CustomerBloc>().state.email;
-          context
-              .read<FavoriteBloc>()
-              .add(AddFavorite(foodId: food.id!, customer: customer));
-        },
-        icon: const Icon(Icons.favorite_rounded),
-        padding: const EdgeInsets.all(1),
-        color: KColors.kTextColorDark,
-        splashColor: KColors.kTextColorDark.withOpacity(.15),
-        enableFeedback: true)
-  ]);
+Widget _foodActions(BuildContext context, Food food, String category) {
+  return Expanded(
+    flex: 1,
+    child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+      IconButton(
+          onPressed: () =>
+              showToast(context, 'success', 'Item added successfully'),
+          icon: category == 'GNR'
+              ? const Icon(Icons.favorite_rounded)
+              : const Icon(Icons.remove_circle_outline_outlined),
+          padding: const EdgeInsets.all(1),
+          color: KColors.kTextColorDark,
+          enableFeedback: true),
+      IconButton(
+          onPressed: () {
+            String customer = context.read<CustomerBloc>().state.email;
+            context
+                .read<FavoriteBloc>()
+                .add(AddFavorite(foodId: food.id!, customer: customer));
+            showToast(context, 'success', 'Food added to Favorites');
+          },
+          icon: const Icon(Icons.shopping_basket),
+          padding: const EdgeInsets.all(1),
+          color: KColors.kTextColorDark,
+          splashColor: KColors.kTextColorDark.withOpacity(.15),
+          enableFeedback: true)
+    ]),
+  );
 }

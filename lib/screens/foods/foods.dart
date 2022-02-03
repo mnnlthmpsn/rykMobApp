@@ -1,24 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:royalkitchen/bloc/food_bloc.dart';
-import 'package:royalkitchen/events/food_event.dart';
 import 'package:royalkitchen/models/food_model.dart';
 import 'package:royalkitchen/screens/foods/components.dart';
 import 'package:royalkitchen/states/food_state.dart';
 
-class Foods extends StatefulWidget {
+class Foods extends StatelessWidget {
   const Foods({Key? key}) : super(key: key);
-
-  @override
-  State<Foods> createState() => _FoodsState();
-}
-
-class _FoodsState extends State<Foods> {
-  @override
-  void initState() {
-    context.read<FoodBloc>().add(GetAllFoods());
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

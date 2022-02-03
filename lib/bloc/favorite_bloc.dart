@@ -11,8 +11,6 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     on<GetAllFavorites>((event, emit) async {
       List<Favorite> allFavorites =
           await favoriteRepo.reqFavorites(event.custEmail);
-
-      print(allFavorites);
       emit(state.copyWith(allFavorites: allFavorites));
     });
 
@@ -20,7 +18,8 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       Favorite favorite = await favoriteRepo.addFavorite({
         'data': {'customer': event.customer, 'food': event.foodId}
       });
-      state.allFavorites?.add(favorite);
+      state.allFavorites.add(favorite);
+      emit(state.copyWith(allFavorites: state.allFavorites));
     });
   }
 }

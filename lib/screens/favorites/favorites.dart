@@ -1,30 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:royalkitchen/bloc/customer_bloc.dart';
 import 'package:royalkitchen/bloc/favorite_bloc.dart';
-import 'package:royalkitchen/events/customer_event.dart';
-import 'package:royalkitchen/events/favorite_event.dart';
-import 'package:royalkitchen/models/customer_model.dart';
-import 'package:royalkitchen/models/favorite_model.dart';
 import 'package:royalkitchen/screens/foods/components.dart';
 import 'package:royalkitchen/states/favorite_state.dart';
-import 'package:royalkitchen/utils/helpers.js.dart';
 
-class Favorites extends StatefulWidget {
+class Favorites extends StatelessWidget {
   const Favorites({Key? key}) : super(key: key);
-
-  @override
-  State<Favorites> createState() => _FavoritesState();
-}
-
-class _FavoritesState extends State<Favorites> {
-
-  @override
-  void initState() {
-    String email = context.read<CustomerBloc>().state.email;
-    context.read<FavoriteBloc>().add(GetAllFavorites(custEmail: email));
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +24,7 @@ class _FavoritesState extends State<Favorites> {
                 alignment: Alignment.centerLeft,
                 child: Text('Your Favorites',
                     style:
-                    TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
             const SizedBox(height: 10),
             _favoriteBody()
           ],
@@ -55,17 +36,16 @@ class _FavoritesState extends State<Favorites> {
   Widget _favoriteBody() {
     return BlocBuilder<FavoriteBloc, FavoriteState>(
         builder: (BuildContext context, FavoriteState state) {
-          List<Favorite> favorites = state.allFavorites!;
-          return ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: favorites.length,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int i) {
-                if (favorites.isNotEmpty) {
-                  return Text(favorites[i].foodId.toString());
-                }
-                return const Text('Error retrieving items');
-              });
-        });
+      return ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: state.allFavorites.length,
+          shrinkWrap: true,
+          itemBuilder: (BuildContext context, int i) {
+            return FoodCard(
+              food: state.allFavorites[i].food,
+              category: 'FVR',
+            );
+          });
+    });
   }
 }

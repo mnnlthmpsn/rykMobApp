@@ -3,13 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:royalkitchen/bloc/customer_bloc.dart';
 import 'package:royalkitchen/bloc/favorite_bloc.dart';
 import 'package:royalkitchen/bloc/food_bloc.dart';
-import 'package:royalkitchen/config/colors.dart';
 import 'package:royalkitchen/config/themes.dart';
+import 'package:royalkitchen/events/customer_event.dart';
 import 'package:royalkitchen/repos/customer_repo.dart';
 import 'package:royalkitchen/repos/favorite_repo.dart';
 import 'package:royalkitchen/repos/food_repo.dart';
 import 'package:royalkitchen/screens/checkout/checkout.dart';
-import 'package:royalkitchen/screens/foods/foods.dart';
 import 'package:royalkitchen/screens/home/home.dart';
 import 'package:royalkitchen/screens/onBoarding/onBoarding.dart';
 import 'package:royalkitchen/screens/register/register.dart';
@@ -27,33 +26,40 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  FoodBloc foodBloc = FoodBloc(foodRepository: FoodRepository());
-  CustomerBloc customerBloc = CustomerBloc(customerRepo: CustomerRepository());
+  final FoodBloc _foodBloc = FoodBloc(foodRepository: FoodRepository());
+  final FavoriteBloc _favoriteBloc =
+      FavoriteBloc(favoriteRepo: FavoriteRepository());
+  final CustomerBloc _customerBloc =
+      CustomerBloc(customerRepo: CustomerRepository());
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: Themes.kThemeData,
-      routes: {
-        '/': (context) => const Splash(),
-        'on_boarding': (context) => OnBoarding(),
-        'home': (context) => const Home(),
-        'checkout': (context) => const Checkout(),
-        'register': (context) => BlocProvider.value(
-              value: customerBloc,
-              child: Register(),
-            )
-      },
-    );
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: _favoriteBloc),
+          BlocProvider.value(value: _foodBloc),
+          BlocProvider.value(value: _customerBloc)
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: Themes.kThemeData,
+          routes: {
+            '/': (context) => const Splash(),
+            'on_boarding': (context) => OnBoarding(),
+            'home': (context) => const Home(),
+            'checkout': (context) => const Checkout(),
+            'register': (context) => Register()
+          },
+        ));
   }
 
   @override
   void dispose() {
-    foodBloc.close();
-    customerBloc.close();
+    _foodBloc.close();
+    _favoriteBloc.close();
+    _customerBloc.close();
     super.dispose();
   }
 }
