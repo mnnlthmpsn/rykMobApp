@@ -5,9 +5,6 @@ import 'package:royalkitchen/bloc/customer_bloc.dart';
 import 'package:royalkitchen/bloc/favorite_bloc.dart';
 import 'package:royalkitchen/config/colors.dart';
 import 'package:badges/badges.dart';
-import 'package:royalkitchen/events/favorite_event.dart';
-import 'package:royalkitchen/repos/favorite_repo.dart';
-import 'package:royalkitchen/states/basket_state.dart';
 import 'package:royalkitchen/states/favorite_state.dart';
 
 List<BottomNavigationBarItem> navItems = [

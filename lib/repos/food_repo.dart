@@ -7,12 +7,15 @@ const String url = 'https://royalkitchen-101.herokuapp.com/api/foods';
 
 class FoodRepository {
   Future<List<Food>> reqFoods() async {
-    dynamic res = await http
+    return await http
         .get(Uri.parse(
             '$url?populate=image&fields=name,description,price,discount,available'))
-        .then((res) => jsonDecode(res.body))
-        .catchError((err) => {});
-    return (res['data'] as List).map((food) => Food.fromJson(food)).toList();
+        .then((res) {
+      dynamic response = jsonDecode(res.body);
+      return (response['data'] as List)
+          .map((food) => Food.fromJson(food))
+          .toList();
+    }).catchError((err) => throw err);
   }
 
   Future<Food> getFoodByID(String foodID) async {

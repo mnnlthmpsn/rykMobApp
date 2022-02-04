@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:royalkitchen/bloc/basket_bloc.dart';
@@ -57,7 +58,7 @@ class _MyAppState extends State<MyApp> {
             'home': (context) => const Home(),
             'checkout': (context) => const Checkout(),
             'register': (context) => Register(),
-            'food-details': (context) => const FoodDetails()
+            'food-details': (context) => FoodDetails()
           },
         ));
   }
