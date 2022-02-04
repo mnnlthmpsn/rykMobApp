@@ -1,13 +1,13 @@
 import 'package:royalkitchen/models/food_model.dart';
 
-class Favorite {
+class Basket {
   final int? id;
   final Food food;
   final String customer;
 
-  Favorite({required this.id, required this.food, required this.customer});
+  Basket({required this.id, required this.food, required this.customer});
 
-  Favorite.fromJson(dynamic json)
+  Basket.fromJson(dynamic json)
       : id = json['id'],
         food = Food(
             json['attributes']['food']['data']['id'],

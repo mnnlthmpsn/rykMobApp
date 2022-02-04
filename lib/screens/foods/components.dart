@@ -1,17 +1,17 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:royalkitchen/bloc/basket_bloc.dart';
 import 'package:royalkitchen/bloc/customer_bloc.dart';
 import 'package:royalkitchen/bloc/favorite_bloc.dart';
 import 'package:royalkitchen/bloc/food_bloc.dart';
 import 'package:royalkitchen/config/colors.dart';
+import 'package:royalkitchen/events/basket_event.dart';
 import 'package:royalkitchen/events/customer_event.dart';
 import 'package:royalkitchen/events/favorite_event.dart';
-import 'package:royalkitchen/models/customer_model.dart';
+import 'package:royalkitchen/events/food_event.dart';
 import 'package:royalkitchen/models/food_model.dart';
-import 'package:royalkitchen/repos/customer_repo.dart';
-import 'package:royalkitchen/repos/favorite_repo.dart';
-import 'package:royalkitchen/repos/food_repo.dart';
-import 'package:royalkitchen/states/favorite_state.dart';
 import 'package:royalkitchen/utils/helpers.js.dart';
 
 class FoodCard extends StatefulWidget {
@@ -38,27 +38,60 @@ class _FoodCardState extends State<FoodCard> {
 
   @override
   Widget build(BuildContext context) {
-    return foodCard(context, widget.food, widget.category);
+    return InkWell(
+      onTap: () {
+        context.read<FoodBloc>().add(SetSingleFood(food: widget.food));
+        newPage(context, 'food-details');
+      },
+      child: foodCard(context, widget.food, widget.category),
+    );
   }
 }
 
 Widget foodCard(context, Food food, String category) {
   return SizedBox(
     width: double.infinity,
-    child: Column(
-      children: [
-        _foodImage(context, food),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 18),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              _foodDetails(context, food),
-              _foodActions(context, food, category)
-            ],
-          ),
-        )
+    child: Stack(
+      children: <Widget>[
+        Column(
+          children: [
+            _foodImage(context, food),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 18),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  _foodDetails(context, food),
+                ],
+              ),
+            )
+          ],
+        ),
+        category == 'FVR'
+            ? Positioned(
+                top: 10,
+                right: 10,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.white.withOpacity(0.2)),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.close),
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            : const SizedBox.shrink()
       ],
     ),
   );
@@ -82,6 +115,7 @@ Widget _foodDetails(context, Food food) {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        const SizedBox(height: 10),
         Text(food.name,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         Text.rich(TextSpan(text: 'GHS ', children: <InlineSpan>[
@@ -90,35 +124,5 @@ Widget _foodDetails(context, Food food) {
         ]))
       ],
     ),
-  );
-}
-
-Widget _foodActions(BuildContext context, Food food, String category) {
-  return Expanded(
-    flex: 1,
-    child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-      IconButton(
-          onPressed: () =>
-              showToast(context, 'success', 'Item added successfully'),
-          icon: category == 'GNR'
-              ? const Icon(Icons.favorite_rounded)
-              : const Icon(Icons.remove_circle_outline_outlined),
-          padding: const EdgeInsets.all(1),
-          color: KColors.kTextColorDark,
-          enableFeedback: true),
-      IconButton(
-          onPressed: () {
-            String customer = context.read<CustomerBloc>().state.email;
-            context
-                .read<FavoriteBloc>()
-                .add(AddFavorite(foodId: food.id!, customer: customer));
-            showToast(context, 'success', 'Food added to Favorites');
-          },
-          icon: const Icon(Icons.shopping_basket),
-          padding: const EdgeInsets.all(1),
-          color: KColors.kTextColorDark,
-          splashColor: KColors.kTextColorDark.withOpacity(.15),
-          enableFeedback: true)
-    ]),
   );
 }

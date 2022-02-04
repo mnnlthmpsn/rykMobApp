@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:royalkitchen/bloc/customer_bloc.dart';
+import 'package:royalkitchen/bloc/basket_bloc.dart';
 import 'package:royalkitchen/bloc/favorite_bloc.dart';
 import 'package:royalkitchen/bloc/food_bloc.dart';
 import 'package:royalkitchen/config/colors.dart';
-import 'package:royalkitchen/events/customer_event.dart';
+import 'package:royalkitchen/events/basket_event.dart';
 import 'package:royalkitchen/events/favorite_event.dart';
 import 'package:royalkitchen/events/food_event.dart';
 import 'package:royalkitchen/models/customer_model.dart';
-import 'package:royalkitchen/screens/basket/basket.dart';
 import 'package:royalkitchen/screens/favorites/favorites.dart';
 import 'package:royalkitchen/screens/foods/foods.dart';
 import 'package:royalkitchen/screens/home/navbarItems.dart';
@@ -36,7 +35,12 @@ class _HomeState extends State<Home> {
   getCustomerDetails() async {
     customer = await getCustomerFromLocalStorage();
 
-    //  now get customer favorite items
+    // get customer cart items
+    context
+        .read<BasketBloc>()
+        .add(GetAllBasketItems(custEmail: customer.email));
+
+    // get customer favorite items
     context
         .read<FavoriteBloc>()
         .add(GetAllFavorites(custEmail: customer.email));
@@ -68,7 +72,7 @@ class _HomeState extends State<Home> {
             onPageChanged: (index) => setState(() => _selectedIndex = index),
             children: <Widget>[
               const Foods(),
-              const Basket(),
+              const Text('Search'),
               const Favorites(),
               Container(color: Colors.black)
             ],

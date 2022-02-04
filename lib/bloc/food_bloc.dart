@@ -7,10 +7,15 @@ import 'package:royalkitchen/states/food_state.dart';
 class FoodBloc extends Bloc<FoodEvent, FoodState> {
   final FoodRepository foodRepository;
 
-  FoodBloc({required this.foodRepository}) : super(FoodState(foods: [])) {
+  FoodBloc({required this.foodRepository})
+      : super(FoodState(foods: [], food: Food(0, '', '', 0.0, false, ''))) {
     on<GetAllFoods>((event, emit) async {
       List<Food> allFoods = await foodRepository.reqFoods();
       emit(state.copyWith(foods: allFoods));
+    });
+
+    on<SetSingleFood>((event, emit) async {
+      emit(state.copyWith(food: event.food));
     });
   }
 }

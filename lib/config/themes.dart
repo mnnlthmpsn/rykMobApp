@@ -14,8 +14,7 @@ class Themes {
   static final kElevatedButtonTheme = ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
           primary: KColors.kPrimaryColor,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15)));
 
   static const kTextTheme = TextTheme(

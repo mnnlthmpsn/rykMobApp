@@ -1,23 +1,20 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
-import 'package:royalkitchen/models/favorite_model.dart';
+import 'package:royalkitchen/models/basket_model.dart';
 
-const String url = 'https://royalkitchen-101.herokuapp.com/api/favorites';
+const String url = 'https://royalkitchen-101.herokuapp.com/api/cart-items';
 
-class FavoriteRepository {
-  Future<List<Favorite>> reqFavorites(custEmail) async {
+class BasketRepository {
+  Future<List<Basket>> reqBasketItems(custEmail) async {
     dynamic res = await http
         .get(Uri.parse(
             '$url?populate[food][populate][0]=image&filters[customer]=$custEmail'))
         .then((res) => jsonDecode(res.body))
         .catchError((err) {});
-    return (res['data'] as List)
-        .map((favorite) => Favorite.fromJson(favorite))
-        .toList();
+    return (res['data'] as List).map((item) => Basket.fromJson(item)).toList();
   }
 
-  Future<Favorite> addFavorite(payload) async {
+  Future<Basket> addBasketItem(payload) async {
     var headers = {"Content-Type": "application/json;charset=UTF-8"};
 
     // convert to json format
@@ -28,7 +25,7 @@ class FavoriteRepository {
             headers: headers, body: encode)
         .then((res) {
       var js = jsonDecode(res.body);
-      Favorite temp = Favorite.fromJson(js['data']);
+      Basket temp = Basket.fromJson(js['data']);
       return temp;
     }).catchError((err) {});
   }
