@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:royalkitchen/bloc/food_bloc.dart';
 import 'package:royalkitchen/config/colors.dart';
 import 'package:royalkitchen/states/food_state.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class FoodDetails extends StatefulWidget {
   FoodDetails({Key? key}) : super(key: key);
@@ -57,7 +58,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                     tag: 'My hero tag',
                     child: Image(
                       fit: BoxFit.cover,
-                      image: NetworkImage(
+                      image: CachedNetworkImageProvider(
                           state.food.image['data']['attributes']['url']),
                     ),
                   ),
@@ -110,7 +111,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                 children: <Widget>[
                   Text(state.food.name,
                       style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold)),
+                          fontSize: 16, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 10),
                   Text(state.food.description),
                   const SizedBox(height: 10),

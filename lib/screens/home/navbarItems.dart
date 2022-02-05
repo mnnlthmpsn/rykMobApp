@@ -23,7 +23,7 @@ List<BottomNavigationBarItem> navItems = [
           badgeContent: Text(
             state.allFavorites.length.toString(),
             style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold),
+                color: KColors.kPrimaryColor, fontWeight: FontWeight.bold),
           ),
           child: const Icon(Icons.favorite_rounded),
           badgeColor: KColors.kSecondaryColor,

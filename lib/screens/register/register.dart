@@ -45,7 +45,8 @@ class Register extends StatelessWidget {
 
   Widget _registerForm(context) {
     return Padding(
-        padding: const EdgeInsets.only(top: 80.0, right: 20, left: 20, bottom: 10),
+        padding:
+            const EdgeInsets.only(top: 80.0, right: 20, left: 20, bottom: 10),
         child: Form(
           key: _formKey,
           child: ListView(
@@ -72,7 +73,7 @@ class Register extends StatelessWidget {
   Widget _firstname() {
     return SizedBox(
       width: double.infinity,
-      height: 55,
+      height: 45,
       child: BlocBuilder<CustomerBloc, CustomerState>(
         builder: (context, state) {
           return TextFormField(
@@ -83,9 +84,10 @@ class Register extends StatelessWidget {
                 .read<CustomerBloc>()
                 .add(FirstnameChanged(firstname: value)),
             cursorColor: KColors.kTextColorDark,
-            style: const TextStyle(color: KColors.kTextColorDark, fontSize: 20),
+            style: const TextStyle(color: KColors.kTextColorDark, fontSize: 16),
             decoration: const InputDecoration(
                 labelText: 'Firstname',
+                labelStyle: TextStyle(fontSize: 16),
                 prefixIcon: Icon(Icons.person_add_alt_1_sharp)),
           );
         },
@@ -96,7 +98,7 @@ class Register extends StatelessWidget {
   Widget _otherNames() {
     return SizedBox(
       width: double.infinity,
-      height: 55,
+      height: 45,
       child: BlocBuilder<CustomerBloc, CustomerState>(
         builder: (BuildContext context, CustomerState state) {
           return TextFormField(
@@ -107,9 +109,11 @@ class Register extends StatelessWidget {
                 .read<CustomerBloc>()
                 .add(OthernamesChanged(otherNames: value)),
             cursorColor: KColors.kTextColorDark,
-            style: const TextStyle(color: KColors.kTextColorDark, fontSize: 20),
+            style: const TextStyle(color: KColors.kTextColorDark, fontSize: 16),
             decoration: const InputDecoration(
-                labelText: 'Other Names', prefixIcon: Icon(Icons.person)),
+                labelStyle: TextStyle(fontSize: 16),
+                labelText: 'Other Names',
+                prefixIcon: Icon(Icons.person)),
           );
         },
       ),
@@ -119,7 +123,7 @@ class Register extends StatelessWidget {
   Widget _email() {
     return SizedBox(
       width: double.infinity,
-      height: 55,
+      height: 45,
       child: BlocBuilder<CustomerBloc, CustomerState>(
         builder: (BuildContext context, CustomerState state) {
           return TextFormField(
@@ -129,8 +133,9 @@ class Register extends StatelessWidget {
             onChanged: (value) =>
                 context.read<CustomerBloc>().add(EmailChanged(email: value)),
             cursorColor: KColors.kTextColorDark,
-            style: const TextStyle(color: KColors.kTextColorDark, fontSize: 20),
+            style: const TextStyle(color: KColors.kTextColorDark, fontSize: 16),
             decoration: const InputDecoration(
+                labelStyle: TextStyle(fontSize: 16),
                 labelText: 'Email',
                 prefixIcon: Icon(Icons.attach_email_outlined)),
           );
@@ -142,7 +147,7 @@ class Register extends StatelessWidget {
   Widget _phone() {
     return SizedBox(
       width: double.infinity,
-      height: 55,
+      height: 45,
       child: BlocBuilder<CustomerBloc, CustomerState>(
         builder: (BuildContext context, CustomerState state) {
           return TextFormField(
@@ -152,8 +157,9 @@ class Register extends StatelessWidget {
             onChanged: (value) =>
                 context.read<CustomerBloc>().add(PhoneChanged(phone: value)),
             cursorColor: KColors.kTextColorDark,
-            style: const TextStyle(color: KColors.kTextColorDark, fontSize: 20),
+            style: const TextStyle(color: KColors.kTextColorDark, fontSize: 16),
             decoration: const InputDecoration(
+                labelStyle: TextStyle(fontSize: 16),
                 labelText: 'Phone',
                 prefixIcon: Icon(Icons.phone_iphone_outlined)),
           );
@@ -165,7 +171,7 @@ class Register extends StatelessWidget {
   Widget _location() {
     return SizedBox(
       width: double.infinity,
-      height: 55,
+      height: 45,
       child: BlocBuilder<CustomerBloc, CustomerState>(
         builder: (BuildContext context, CustomerState state) {
           return TextFormField(
@@ -176,8 +182,9 @@ class Register extends StatelessWidget {
                 .read<CustomerBloc>()
                 .add(LocationChanged(location: value)),
             cursorColor: KColors.kTextColorDark,
-            style: const TextStyle(color: KColors.kTextColorDark, fontSize: 20),
+            style: const TextStyle(color: KColors.kTextColorDark, fontSize: 16),
             decoration: const InputDecoration(
+                labelStyle: TextStyle(fontSize: 16),
                 labelText: 'Location',
                 prefixIcon: Icon(Icons.location_on_outlined)),
           );
@@ -197,7 +204,7 @@ class Register extends StatelessWidget {
                 context.read<CustomerBloc>().add(RegisterSubmitted()),
             child: Text(
                 state.formStatus is FormSubmitting ? 'loading...' : 'Continue',
-                style: const TextStyle(fontSize: 20, color: Colors.white)),
+                style: const TextStyle(fontSize: 16, color: Colors.white)),
           );
         },
         listener: (BuildContext context, CustomerState state) {

@@ -17,14 +17,14 @@ class Foods extends StatelessWidget {
   Widget _foodParent() {
     return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool isScrolled) {
-          return <Widget>[_foodHeader(context, isScrolled)];
+          return <Widget>[_foodHeader(context)];
         },
         body: _foodBody());
   }
 
-  Widget _foodHeader(BuildContext context, bool isScrolled) {
+  Widget _foodHeader(BuildContext context) {
     return SliverAppBar(
-      floating: false,
+      floating: true,
       pinned: true,
       automaticallyImplyLeading: false,
       elevation: .2,
@@ -42,18 +42,15 @@ class Foods extends StatelessWidget {
     return BlocBuilder<FoodBloc, FoodState>(
         builder: (BuildContext context, FoodState state) {
       List<Food> foods = state.foods;
-      return Padding(
-        padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
-        child: ListView.builder(
-            itemCount: foods.length,
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int i) {
-              if (foods.isNotEmpty) {
-                return FoodCard(food: foods[i]);
-              }
-              return const Text('Error retrieving items');
-            }),
-      );
+      return ListView.builder(
+          itemCount: foods.length,
+          shrinkWrap: true,
+          itemBuilder: (BuildContext context, int i) {
+            if (foods.isNotEmpty) {
+              return FoodCard(food: foods[i]);
+            }
+            return const Text('Error retrieving items');
+          });
     });
   }
 }

@@ -4,7 +4,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 Widget _buildFullscreenImage(String img) {
   return Image.asset(
     img,
-    fit: BoxFit.contain,
+    fit: BoxFit.cover,
     height: double.infinity,
     width: double.infinity,
     alignment: Alignment.center,
@@ -12,8 +12,8 @@ Widget _buildFullscreenImage(String img) {
 }
 
 const pageDecoration = PageDecoration(
-  titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
-  bodyTextStyle: TextStyle(fontSize: 19.0),
+  titleTextStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
+  bodyTextStyle: TextStyle(fontSize: 16.0),
   descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
   pageColor: Colors.white,
   imagePadding: EdgeInsets.zero,

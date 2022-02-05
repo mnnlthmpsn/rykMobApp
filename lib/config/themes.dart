@@ -33,12 +33,12 @@ class Themes {
 
   static final kDecorationTheme = InputDecorationTheme(
     iconColor: KColors.kSecondaryColor,
-    labelStyle: const TextStyle(color: KColors.kGreyColor, fontSize: 18),
-    floatingLabelStyle:
-        const TextStyle(color: KColors.kPrimaryColor, fontSize: 15),
+    labelStyle: const TextStyle(color: KColors.kGreyColor, fontSize: 16),
+    filled: true,
+    fillColor: Colors.grey.shade200.withOpacity(.5),
+    floatingLabelBehavior: FloatingLabelBehavior.never,
     enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: KColors.kGreyColor),
-        borderRadius: BorderRadius.circular(5)),
+        borderSide: BorderSide.none, borderRadius: BorderRadius.circular(5)),
     focusedBorder: OutlineInputBorder(
         borderSide: const BorderSide(color: KColors.kPrimaryColor),
         borderRadius: BorderRadius.circular(5)),

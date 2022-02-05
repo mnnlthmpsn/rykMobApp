@@ -6,7 +6,6 @@ import 'package:royalkitchen/bloc/customer_bloc.dart';
 import 'package:royalkitchen/bloc/favorite_bloc.dart';
 import 'package:royalkitchen/bloc/food_bloc.dart';
 import 'package:royalkitchen/config/themes.dart';
-import 'package:royalkitchen/events/customer_event.dart';
 import 'package:royalkitchen/repos/basket_repo.dart';
 import 'package:royalkitchen/repos/customer_repo.dart';
 import 'package:royalkitchen/repos/favorite_repo.dart';
@@ -17,6 +16,7 @@ import 'package:royalkitchen/screens/home/home.dart';
 import 'package:royalkitchen/screens/onBoarding/onBoarding.dart';
 import 'package:royalkitchen/screens/register/register.dart';
 import 'package:royalkitchen/screens/splashscreen/splashScreen.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 void main() {
   runApp(const MyApp());
@@ -50,6 +50,8 @@ class _MyAppState extends State<MyApp> {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
+          builder: BotToastInit(), //1. call BotToastInit
+          navigatorObservers: [BotToastNavigatorObserver()],
           title: 'Flutter Demo',
           theme: Themes.kThemeData,
           routes: {

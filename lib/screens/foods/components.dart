@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:royalkitchen/bloc/basket_bloc.dart';
 import 'package:royalkitchen/bloc/customer_bloc.dart';
 import 'package:royalkitchen/bloc/favorite_bloc.dart';
 import 'package:royalkitchen/bloc/food_bloc.dart';
@@ -13,6 +12,7 @@ import 'package:royalkitchen/events/favorite_event.dart';
 import 'package:royalkitchen/events/food_event.dart';
 import 'package:royalkitchen/models/food_model.dart';
 import 'package:royalkitchen/utils/helpers.js.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class FoodCard extends StatefulWidget {
   final Food food;
@@ -43,7 +43,10 @@ class _FoodCardState extends State<FoodCard> {
         context.read<FoodBloc>().add(SetSingleFood(food: widget.food));
         newPage(context, 'food-details');
       },
-      child: foodCard(context, widget.food, widget.category),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+        child: foodCard(context, widget.food, widget.category),
+      ),
     );
   }
 }
@@ -104,7 +107,9 @@ Widget _foodImage(context, Food food) {
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         image: DecorationImage(
-            image: NetworkImage(food.image['data']['attributes']['url']),
+            image: CachedNetworkImageProvider(
+                '${food.image['data']['attributes']['url']}'),
+            // image: NetworkImage(food.image['data']['attributes']['url']),
             fit: BoxFit.cover)),
   );
 }
@@ -117,10 +122,10 @@ Widget _foodDetails(context, Food food) {
       children: <Widget>[
         const SizedBox(height: 10),
         Text(food.name,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
         Text.rich(TextSpan(text: 'GHS ', children: <InlineSpan>[
           TextSpan(
-              text: food.price.toString(), style: const TextStyle(fontSize: 14))
+              text: food.price.toString(), style: const TextStyle(fontSize: 13))
         ]))
       ],
     ),

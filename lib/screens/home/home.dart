@@ -28,6 +28,8 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    // get all foods
+    context.read<FoodBloc>().add(GetAllFoods());
     getCustomerDetails();
     super.initState();
   }
@@ -62,9 +64,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // get all foods
-    context.read<FoodBloc>().add(GetAllFoods());
-
     return Scaffold(
         body: SizedBox.expand(
           child: PageView(

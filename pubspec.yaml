@@ -39,9 +39,9 @@ dependencies:
   animated_splash_screen: ^1.1.0
   http: ^0.13.4
   cached_network_image: ^3.2.0
-  another_flushbar: ^1.10.28
   badges: ^2.0.2
   shared_preferences: ^2.0.12
+  bot_toast: ^4.0.0
 
 dev_dependencies:
   flutter_test:

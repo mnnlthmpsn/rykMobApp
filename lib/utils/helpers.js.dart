@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:royalkitchen/config/colors.dart';
 import 'package:royalkitchen/models/customer_model.dart';
@@ -19,25 +18,6 @@ void dismissKeyboard(context) {
   if (!currentFocus.hasPrimaryFocus) {
     currentFocus.unfocus();
   }
-}
-
-Future showToast(context, status, message) {
-  return Flushbar(
-          margin: const EdgeInsets.all(8),
-          borderRadius: BorderRadius.circular(8),
-          flushbarPosition: FlushbarPosition.TOP,
-          backgroundColor:
-              status == 'success' ? KColors.kSecondaryColor : Colors.red,
-          icon: Icon(
-            status == 'success' ? Icons.check : Icons.error_outline,
-            color: Colors.white,
-          ),
-          title: status.toString().toUpperCase(),
-          titleSize: 14,
-          message: message,
-          messageSize: 12,
-          duration: const Duration(seconds: 3))
-      .show(context);
 }
 
 dynamic storeInLocalStorage(key, val, type) async {
