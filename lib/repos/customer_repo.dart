@@ -19,7 +19,7 @@ class CustomerRepository {
             headers: headers,
             body: encode)
         .then((res) => jsonDecode(res.body))
-        .catchError((err) => {});
+        .catchError((err) => print(err));
 
     Customer customer = Customer.fromJson(res['data']);
     String encodedCustomer = jsonEncode({
@@ -27,8 +27,7 @@ class CustomerRepository {
       'email': customer.email,
       'firstname': customer.firstname,
       'otherNames': customer.otherNames,
-      'phone': customer.phone,
-      'location': customer.location
+      'phone': customer.phone
     });
 
     // if successful, store customer in shared preference

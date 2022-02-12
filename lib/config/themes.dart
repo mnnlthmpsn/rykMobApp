@@ -40,10 +40,10 @@ class Themes {
     enabledBorder: OutlineInputBorder(
         borderSide: BorderSide.none, borderRadius: BorderRadius.circular(5)),
     focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: KColors.kPrimaryColor),
+        borderSide: const BorderSide(color: KColors.kPrimaryColor, width: .5),
         borderRadius: BorderRadius.circular(5)),
     errorBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.redAccent),
+        borderSide: const BorderSide(color: Colors.redAccent, width: .5),
         borderRadius: BorderRadius.circular(5)),
   );
 }

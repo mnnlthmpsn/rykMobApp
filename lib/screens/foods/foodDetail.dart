@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_place/google_place.dart';
 import 'package:royalkitchen/bloc/food_bloc.dart';
 import 'package:royalkitchen/config/colors.dart';
 import 'package:royalkitchen/states/food_state.dart';
@@ -15,6 +16,16 @@ class FoodDetails extends StatefulWidget {
 }
 
 class _FoodDetailsState extends State<FoodDetails> {
+  late GooglePlace googlePlace;
+  List<AutocompletePrediction> predictions = [];
+  final TextEditingController _searchFieldController = TextEditingController();
+
+  @override
+  void initState() {
+    googlePlace = GooglePlace('AIzaSyCTrqlPGpXrtHJsmylPKzjmCr1ljWolLLU');
+    super.initState();
+  }
+
   Map<String, dynamic> values = {
     'Extra Chicken': {'price': 5.00, 'checked': false},
     'Sausage': {'price': 6.00, 'checked': false},
@@ -165,9 +176,67 @@ class _FoodDetailsState extends State<FoodDetails> {
   }
 
   Widget _delivery() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: Text('Select delivery'),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          const Text('Location'),
+          const SizedBox(height: 5),
+          Container(
+            height: 50,
+            child: TextField(
+                keyboardType: TextInputType.text,
+                cursorWidth: 1,
+                controller: _searchFieldController,
+                onChanged: (value) {
+                  if (value.isNotEmpty) {
+                    autoCompleteSearch(value);
+                  } else {
+                    if (predictions.isNotEmpty && mounted) {
+                      setState(() => predictions = []);
+                    }
+                  }
+                },
+                cursorColor: KColors.kTextColorDark,
+                style: const TextStyle(
+                    color: KColors.kTextColorDark, fontSize: 14),
+                decoration: const InputDecoration(
+                    alignLabelWithHint: true,
+                    labelText: 'Delivery Location',
+                    labelStyle: TextStyle(fontSize: 16),
+                    prefixIcon: Icon(
+                      Icons.location_on_outlined,
+                      size: 16,
+                    ))),
+          ),
+          const SizedBox(height: 2),
+          SizedBox(
+            height: predictions.isNotEmpty
+                ? MediaQuery.of(context).size.height * .25
+                : 0,
+            child: ListView.builder(
+                itemCount: predictions.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: const CircleAvatar(
+                        child: Icon(
+                      Icons.pin_drop,
+                      color: Colors.white,
+                      size: 15,
+                    )),
+                    title: Text(predictions[index].description!,
+                        style: const TextStyle(
+                            fontSize: 14, color: KColors.kGreyColor)),
+                    onTap: () {
+                      _searchFieldController.value = TextEditingValue(
+                          text: predictions[index].description!);
+                    },
+                  );
+                }),
+          )
+        ],
+      ),
     );
   }
 
@@ -190,5 +259,13 @@ class _FoodDetailsState extends State<FoodDetails> {
             style: TextStyle(color: Colors.white),
           )),
     );
+  }
+
+  void autoCompleteSearch(String value) async {
+    var result = await googlePlace.autocomplete.get(value);
+    if (result != null && result.predictions != null && mounted) {
+      print(result.predictions);
+      setState(() => predictions = result.predictions!);
+    }
   }
 }

@@ -38,8 +38,8 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
           email: customer.email,
           firstname: customer.firstname,
           otherNames: customer.otherNames,
-          phone: customer.phone,
-          location: customer.location));
+          phone: customer.phone
+      ));
     });
 
     on<RegisterSubmitted>((event, emit) async {
@@ -49,7 +49,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
           'firstname': state.firstname,
           'other_names': state.otherNames,
           'phone': state.phone,
-          'location': state.location
+          'location': 'def_loc'
         }
       };
 
@@ -61,6 +61,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
         emit(state.copyWith(formStatus: SubmissionSuccess()));
       } catch (e) {
         print(e);
+        print('an error occured');
         emit(state.copyWith(formStatus: SubmissionFailed(e)));
       } finally {
         emit(state.copyWith(formStatus: const InitialFormStatus()));

@@ -55,6 +55,5 @@ Future<Customer> getCustomerFromLocalStorage() async {
       email: res['email'],
       firstname: res['firstname'],
       otherNames: res['otherNames'],
-      phone: res['phone'],
-      location: res['location']);
+      phone: res['phone']);
 }

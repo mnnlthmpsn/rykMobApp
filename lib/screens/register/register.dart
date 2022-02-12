@@ -61,8 +61,6 @@ class Register extends StatelessWidget {
               _email(),
               const SizedBox(height: 20),
               _phone(),
-              const SizedBox(height: 20),
-              _location(),
               const SizedBox(height: 15),
               _registerBtn()
             ],
@@ -79,6 +77,7 @@ class Register extends StatelessWidget {
           return TextFormField(
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.next,
+            textAlignVertical: TextAlignVertical.top,
             validator: (value) => null,
             onChanged: (value) => context
                 .read<CustomerBloc>()
@@ -88,7 +87,7 @@ class Register extends StatelessWidget {
             decoration: const InputDecoration(
                 labelText: 'Firstname',
                 labelStyle: TextStyle(fontSize: 16),
-                prefixIcon: Icon(Icons.person_add_alt_1_sharp)),
+                prefixIcon: Icon(Icons.person_add_alt_1_sharp, size: 16,)),
           );
         },
       ),
@@ -104,6 +103,7 @@ class Register extends StatelessWidget {
           return TextFormField(
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
+            textAlignVertical: TextAlignVertical.top,
             validator: (value) => null,
             onChanged: (value) => context
                 .read<CustomerBloc>()
@@ -113,7 +113,7 @@ class Register extends StatelessWidget {
             decoration: const InputDecoration(
                 labelStyle: TextStyle(fontSize: 16),
                 labelText: 'Other Names',
-                prefixIcon: Icon(Icons.person)),
+                prefixIcon: Icon(Icons.person, size: 16)),
           );
         },
       ),
@@ -128,6 +128,7 @@ class Register extends StatelessWidget {
         builder: (BuildContext context, CustomerState state) {
           return TextFormField(
             keyboardType: TextInputType.emailAddress,
+            textAlignVertical: TextAlignVertical.top,
             textInputAction: TextInputAction.next,
             validator: (value) => null,
             onChanged: (value) =>
@@ -137,7 +138,7 @@ class Register extends StatelessWidget {
             decoration: const InputDecoration(
                 labelStyle: TextStyle(fontSize: 16),
                 labelText: 'Email',
-                prefixIcon: Icon(Icons.attach_email_outlined)),
+                prefixIcon: Icon(Icons.attach_email_outlined, size: 16)),
           );
         },
       ),
@@ -152,7 +153,8 @@ class Register extends StatelessWidget {
         builder: (BuildContext context, CustomerState state) {
           return TextFormField(
             keyboardType: TextInputType.phone,
-            textInputAction: TextInputAction.next,
+            textInputAction: TextInputAction.done,
+            textAlignVertical: TextAlignVertical.top,
             validator: (value) => null,
             onChanged: (value) =>
                 context.read<CustomerBloc>().add(PhoneChanged(phone: value)),
@@ -161,32 +163,7 @@ class Register extends StatelessWidget {
             decoration: const InputDecoration(
                 labelStyle: TextStyle(fontSize: 16),
                 labelText: 'Phone',
-                prefixIcon: Icon(Icons.phone_iphone_outlined)),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _location() {
-    return SizedBox(
-      width: double.infinity,
-      height: 45,
-      child: BlocBuilder<CustomerBloc, CustomerState>(
-        builder: (BuildContext context, CustomerState state) {
-          return TextFormField(
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.done,
-            validator: (value) => null,
-            onChanged: (value) => context
-                .read<CustomerBloc>()
-                .add(LocationChanged(location: value)),
-            cursorColor: KColors.kTextColorDark,
-            style: const TextStyle(color: KColors.kTextColorDark, fontSize: 16),
-            decoration: const InputDecoration(
-                labelStyle: TextStyle(fontSize: 16),
-                labelText: 'Location',
-                prefixIcon: Icon(Icons.location_on_outlined)),
+                prefixIcon: Icon(Icons.phone_iphone_outlined, size: 16)),
           );
         },
       ),
