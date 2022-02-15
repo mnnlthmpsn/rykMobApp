@@ -13,7 +13,7 @@ class FavoriteRepository {
 
     try {
       dynamic res = await http.get(Uri.parse(
-          '$url?populate[food][populate][0]=image&filters[customer]=$custEmail'));
+          '$url?populate[food][populate]=*&filters[customer]=$custEmail'));
       dynamic temp = jsonDecode(res.body);
       BotToast.closeAllLoading();
       return (temp['data'] as List)
@@ -21,6 +21,7 @@ class FavoriteRepository {
           .toList();
     } catch (err) {
       BotToast.showText(text: 'Error occured getting favorite items');
+      BotToast.closeAllLoading();
       rethrow;
     }
   }
@@ -34,15 +35,17 @@ class FavoriteRepository {
 
     try {
       dynamic res = await http.post(
-          Uri.parse('$url?populate[food][populate][0]=image'),
+          Uri.parse('$url?populate[food][populate]=*'),
           headers: headers,
           body: encode);
       var js = jsonDecode(res.body);
       Favorite temp = Favorite.fromJson(js['data']);
       BotToast.closeAllLoading();
+      BotToast.showText(text: 'Favorite added successfully');
       return temp;
     } catch (err) {
       BotToast.showText(text: 'Error occured Adding to favorite');
+      BotToast.closeAllLoading();
       rethrow;
     }
   }

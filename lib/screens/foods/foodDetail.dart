@@ -1,10 +1,15 @@
 import 'dart:ui';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_place/google_place.dart';
+import 'package:royalkitchen/bloc/customer_bloc.dart';
+import 'package:royalkitchen/bloc/favorite_bloc.dart';
 import 'package:royalkitchen/bloc/food_bloc.dart';
 import 'package:royalkitchen/config/colors.dart';
+import 'package:royalkitchen/events/favorite_event.dart';
+import 'package:royalkitchen/models/food_model.dart';
+import 'package:royalkitchen/states/favorite_state.dart';
 import 'package:royalkitchen/states/food_state.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -22,7 +27,7 @@ class _FoodDetailsState extends State<FoodDetails> {
 
   @override
   void initState() {
-    googlePlace = GooglePlace('AIzaSyCTrqlPGpXrtHJsmylPKzjmCr1ljWolLLU');
+    googlePlace = GooglePlace(dotenv.env['PLACES_API_KEY']!);
     super.initState();
   }
 
@@ -134,11 +139,19 @@ class _FoodDetailsState extends State<FoodDetails> {
                 ],
               ),
             ),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.favorite))
+            _addToFavoriteButton(state.food)
           ],
         ),
       );
     });
+  }
+
+  Widget _addToFavoriteButton(Food food) {
+    return IconButton(
+        onPressed: () => context.read<FavoriteBloc>().add(AddFavorite(
+            foodId: food.id!,
+            customer: context.read<CustomerBloc>().state.email)),
+        icon: const Icon(Icons.favorite));
   }
 
   Widget _additional() {
@@ -165,7 +178,6 @@ class _FoodDetailsState extends State<FoodDetails> {
                 value: values[key]['checked'],
                 onChanged: (bool? val) {
                   setState(() => values[key]['checked'] = val!);
-                  print(values);
                 },
               );
             }).toList(),
@@ -255,7 +267,7 @@ class _FoodDetailsState extends State<FoodDetails> {
       child: ElevatedButton(
           onPressed: () {},
           child: const Text(
-            'Continue | GHS 20.00',
+            'Add to Cart | GHS 20.00',
             style: TextStyle(color: Colors.white),
           )),
     );
@@ -264,7 +276,6 @@ class _FoodDetailsState extends State<FoodDetails> {
   void autoCompleteSearch(String value) async {
     var result = await googlePlace.autocomplete.get(value);
     if (result != null && result.predictions != null && mounted) {
-      print(result.predictions);
       setState(() => predictions = result.predictions!);
     }
   }

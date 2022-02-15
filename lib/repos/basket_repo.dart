@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:royalkitchen/models/basket_model.dart';
 
-const String url = 'https://royalkitchen-101.herokuapp.com/api/cart-items';
+const String url = 'https://royalkitchen-101.herokuapp.com/api/basket-items';
 
 class BasketRepository {
   Future<List<Basket>> reqBasketItems(custEmail) async {
@@ -11,7 +11,7 @@ class BasketRepository {
             '$url?populate[food][populate][0]=image&filters[customer]=$custEmail'))
         .then((res) => jsonDecode(res.body))
         .catchError((err) {});
-    return (res['data'] as List).map((item) => Basket.fromJson(item)).toList();
+    return res['data'] != null ? (res['data'] as List).map((item) => Basket.fromJson(item)).toList() : [];
   }
 
   Future<Basket> addBasketItem(payload) async {

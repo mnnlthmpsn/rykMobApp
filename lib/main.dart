@@ -17,8 +17,10 @@ import 'package:royalkitchen/screens/onBoarding/onBoarding.dart';
 import 'package:royalkitchen/screens/register/register.dart';
 import 'package:royalkitchen/screens/splashscreen/splashScreen.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 

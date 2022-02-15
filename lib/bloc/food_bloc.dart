@@ -8,7 +8,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
   final FoodRepository foodRepository;
 
   FoodBloc({required this.foodRepository})
-      : super(FoodState(foods: [], food: Food(0, '', '', 0.0, false, ''))) {
+      : super(FoodState(foods: [], food: Food(0, '', '', 0.0, false, '', []))) {
     on<GetAllFoods>((event, emit) async {
       List<Food> allFoods = await foodRepository.reqFoods();
       emit(state.copyWith(foods: allFoods));

@@ -11,7 +11,7 @@ class FoodRepository {
     BotToast.showLoading();
     try {
       dynamic res = await http.get(Uri.parse(
-          '$url?populate=image&fields=name,description,price,discount,available'));
+          '$url?populate=*&fields=name,description,price,discount,available'));
       dynamic response = jsonDecode(res.body);
       return (response['data'] as List)
           .map((food) => Food.fromJson(food))

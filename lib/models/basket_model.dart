@@ -17,6 +17,7 @@ class Basket {
                     ['price']
                 .toString()),
             json['attributes']['food']['data']['attributes']['available'],
-            json['attributes']['food']['data']['attributes']['image']),
+            json['attributes']['food']['data']['attributes']['image'],
+            json['attributes']['food']['data']['attributes']['foodExtras']),
         customer = json['attributes']['customer'];
 }

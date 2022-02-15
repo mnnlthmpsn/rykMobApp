@@ -5,15 +5,17 @@ class Food {
   final double price;
   final bool available;
   final dynamic image;
+  final List<dynamic> foodExtra;
 
   Food(this.id, this.name, this.description, this.price, this.available,
-      this.image);
+      this.image, this.foodExtra);
 
   Food.fromJson(dynamic json)
-    : id = json['id'],
-      name = json['attributes']['name'],
-      description = json['attributes']['description'],
-      price = double.parse(json['attributes']['price'].toString()),
-      available = json['attributes']['available'],
-      image = json['attributes']['image'];
+      : id = json['id'],
+        name = json['attributes']['name'],
+        description = json['attributes']['description'],
+        price = double.parse(json['attributes']['price'].toString()),
+        available = json['attributes']['available'],
+        image = json['attributes']['image'],
+        foodExtra = json['attributes']['foodExtras'];
 }

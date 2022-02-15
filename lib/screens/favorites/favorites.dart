@@ -29,7 +29,7 @@ class Favorites extends StatelessWidget {
       pinned: true,
       automaticallyImplyLeading: false,
       elevation: .2,
-      title: const Text('Browse Foods',
+      title: const Text('Browse Favorites',
           style: TextStyle(
               fontSize: 16,
               color: KColors.kTextColorDark,

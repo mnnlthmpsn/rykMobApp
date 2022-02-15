@@ -8,6 +8,7 @@ import 'package:royalkitchen/events/basket_event.dart';
 import 'package:royalkitchen/events/favorite_event.dart';
 import 'package:royalkitchen/events/food_event.dart';
 import 'package:royalkitchen/models/customer_model.dart';
+import 'package:royalkitchen/screens/basket/basket.dart';
 import 'package:royalkitchen/screens/favorites/favorites.dart';
 import 'package:royalkitchen/screens/foods/foods.dart';
 import 'package:royalkitchen/screens/home/navbarItems.dart';
@@ -37,7 +38,7 @@ class _HomeState extends State<Home> {
   getCustomerDetails() async {
     customer = await getCustomerFromLocalStorage();
 
-    // get customer cart items
+    // get customer basket items
     context
         .read<BasketBloc>()
         .add(GetAllBasketItems(custEmail: customer.email));
@@ -69,11 +70,11 @@ class _HomeState extends State<Home> {
           child: PageView(
             controller: _pageController,
             onPageChanged: (index) => setState(() => _selectedIndex = index),
-            children: <Widget>[
-              const Foods(),
-              const Text('Search'),
-              const Favorites(),
-              Container(color: Colors.black)
+            children: const <Widget>[
+              Foods(),
+              Text('Search'),
+              Favorites(),
+              Basket()
             ],
           ),
         ),

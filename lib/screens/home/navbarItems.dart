@@ -5,6 +5,7 @@ import 'package:royalkitchen/bloc/customer_bloc.dart';
 import 'package:royalkitchen/bloc/favorite_bloc.dart';
 import 'package:royalkitchen/config/colors.dart';
 import 'package:badges/badges.dart';
+import 'package:royalkitchen/states/basket_state.dart';
 import 'package:royalkitchen/states/favorite_state.dart';
 
 List<BottomNavigationBarItem> navItems = [
@@ -33,8 +34,21 @@ List<BottomNavigationBarItem> navItems = [
     label: 'Favorites',
     backgroundColor: KColors.kPrimaryColor,
   ),
-  const BottomNavigationBarItem(
-      label: 'Settings',
-      icon: Icon(Icons.settings),
-      backgroundColor: KColors.kPrimaryColor),
+  BottomNavigationBarItem(
+    icon: BlocBuilder<BasketBloc, BasketState>(
+      builder: (BuildContext context, BasketState state) {
+        return Badge(
+          badgeContent: Text(
+            state.allBasketItems.length.toString(),
+            style: const TextStyle(
+                color: KColors.kPrimaryColor, fontWeight: FontWeight.bold),
+          ),
+          child: const Icon(Icons.shopping_basket_sharp),
+          badgeColor: KColors.kSecondaryColor,
+        );
+      },
+    ),
+    label: 'Basket',
+    backgroundColor: KColors.kPrimaryColor,
+  ),
 ];
