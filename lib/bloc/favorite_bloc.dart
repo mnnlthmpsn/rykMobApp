@@ -21,5 +21,10 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       state.allFavorites.add(favorite);
       emit(state.copyWith(allFavorites: state.allFavorites));
     });
+
+    on<DeleteFavorite>((event, emit) async {
+      Favorite favorite = await favoriteRepo.deleteFavorite(event.favoriteID);
+      print(favorite.id);
+    });
   }
 }

@@ -1,12 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:royalkitchen/bloc/basket_bloc.dart';
 import 'package:royalkitchen/bloc/customer_bloc.dart';
 import 'package:royalkitchen/bloc/favorite_bloc.dart';
 import 'package:royalkitchen/bloc/food_bloc.dart';
 import 'package:royalkitchen/config/themes.dart';
-import 'package:royalkitchen/repos/basket_repo.dart';
 import 'package:royalkitchen/repos/customer_repo.dart';
 import 'package:royalkitchen/repos/favorite_repo.dart';
 import 'package:royalkitchen/repos/food_repo.dart';
@@ -35,8 +32,6 @@ class _MyAppState extends State<MyApp> {
   final FoodBloc _foodBloc = FoodBloc(foodRepository: FoodRepository());
   final FavoriteBloc _favoriteBloc =
       FavoriteBloc(favoriteRepo: FavoriteRepository());
-  final BasketBloc _basketBloc =
-      BasketBloc(basketRepository: BasketRepository());
   final CustomerBloc _customerBloc =
       CustomerBloc(customerRepo: CustomerRepository());
 
@@ -46,7 +41,6 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
         providers: [
           BlocProvider.value(value: _foodBloc),
-          BlocProvider.value(value: _basketBloc),
           BlocProvider.value(value: _favoriteBloc),
           BlocProvider.value(value: _customerBloc)
         ],
@@ -70,7 +64,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     _foodBloc.close();
-    _basketBloc.close();
     _favoriteBloc.close();
     _customerBloc.close();
     super.dispose();

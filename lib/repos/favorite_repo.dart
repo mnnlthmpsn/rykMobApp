@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:royalkitchen/models/favorite_model.dart';
 
@@ -20,7 +21,9 @@ class FavoriteRepository {
           .map((favorite) => Favorite.fromJson(favorite))
           .toList();
     } catch (err) {
-      BotToast.showText(text: 'Error occured getting favorite items');
+      BotToast.showText(
+          text: 'Error occured getting favorite items',
+          textStyle: const TextStyle(fontSize: 14, color: Colors.white));
       BotToast.closeAllLoading();
       rethrow;
     }
@@ -41,10 +44,35 @@ class FavoriteRepository {
       var js = jsonDecode(res.body);
       Favorite temp = Favorite.fromJson(js['data']);
       BotToast.closeAllLoading();
-      BotToast.showText(text: 'Favorite added successfully');
+      BotToast.showText(
+          text: 'Favorite added successfully',
+          textStyle: const TextStyle(fontSize: 14, color: Colors.white));
       return temp;
     } catch (err) {
-      BotToast.showText(text: 'Error occured Adding to favorite');
+      BotToast.showText(
+          text: 'Error occured Adding to favorite',
+          textStyle: const TextStyle(fontSize: 14, color: Colors.white));
+      BotToast.closeAllLoading();
+      rethrow;
+    }
+  }
+
+  Future<Favorite> deleteFavorite(int favoriteID) async {
+    BotToast.showLoading();
+    try {
+      dynamic res = await http.delete(Uri.parse('$url/$favoriteID'));
+      var js = jsonDecode(res.body);
+      Favorite temp = Favorite.fromJson(js['data']);
+      BotToast.closeAllLoading();
+      BotToast.showText(
+          text: 'Food removed successfully',
+          textStyle: const TextStyle(fontSize: 14));
+
+      return temp;
+    } catch (err) {
+      BotToast.showText(
+          text: 'Sorry an error occured',
+          textStyle: const TextStyle(fontSize: 14, color: Colors.white));
       BotToast.closeAllLoading();
       rethrow;
     }

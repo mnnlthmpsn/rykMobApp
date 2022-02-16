@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -17,7 +18,7 @@ class FoodRepository {
           .map((food) => Food.fromJson(food))
           .toList();
     } catch (err) {
-      BotToast.showText(text: 'Sorry an error occured');
+      BotToast.showText(text: 'Sorry an error occured', textStyle: const TextStyle(fontSize: 14, color: Colors.white));
       rethrow;
     } finally {
       BotToast.closeAllLoading();
@@ -34,7 +35,7 @@ class FoodRepository {
       Food food = Food.fromJson(temp['data'][0]);
       return food;
     } catch (err) {
-      BotToast.showText(text: err.toString());
+      BotToast.showText(text: err.toString(), textStyle: const TextStyle(fontSize: 14, color: Colors.white));
       rethrow;
     } finally {
       BotToast.closeAllLoading();

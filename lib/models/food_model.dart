@@ -5,10 +5,10 @@ class Food {
   final double price;
   final bool available;
   final dynamic image;
-  final List<dynamic> foodExtra;
+  final List<dynamic> foodExtras;
 
   Food(this.id, this.name, this.description, this.price, this.available,
-      this.image, this.foodExtra);
+      this.image, this.foodExtras);
 
   Food.fromJson(dynamic json)
       : id = json['id'],
@@ -17,5 +17,5 @@ class Food {
         price = double.parse(json['attributes']['price'].toString()),
         available = json['attributes']['available'],
         image = json['attributes']['image'],
-        foodExtra = json['attributes']['foodExtras'];
+        foodExtras = json['attributes']['foodExtras'];
 }

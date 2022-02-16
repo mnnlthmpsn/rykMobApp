@@ -6,7 +6,6 @@ import 'package:royalkitchen/bloc/customer_bloc.dart';
 import 'package:royalkitchen/bloc/favorite_bloc.dart';
 import 'package:royalkitchen/bloc/food_bloc.dart';
 import 'package:royalkitchen/config/colors.dart';
-import 'package:royalkitchen/events/basket_event.dart';
 import 'package:royalkitchen/events/customer_event.dart';
 import 'package:royalkitchen/events/favorite_event.dart';
 import 'package:royalkitchen/events/food_event.dart';
@@ -17,8 +16,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 class FoodCard extends StatefulWidget {
   final Food food;
   final String category;
+  final int? fid;
 
-  const FoodCard({Key? key, required this.food, this.category = 'GNR'})
+  const FoodCard(
+      {Key? key, required this.food, this.category = 'GNR', this.fid})
       : super(key: key);
 
   @override
@@ -45,13 +46,13 @@ class _FoodCardState extends State<FoodCard> {
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
-        child: foodCard(context, widget.food, widget.category),
+        child: foodCard(context, widget.food, widget.category, widget.fid),
       ),
     );
   }
 }
 
-Widget foodCard(context, Food food, String category) {
+Widget foodCard(BuildContext context, Food food, String category, fid) {
   return SizedBox(
     width: double.infinity,
     child: Stack(
@@ -86,7 +87,11 @@ Widget foodCard(context, Food food, String category) {
                           borderRadius: BorderRadius.circular(50),
                           color: Colors.white.withOpacity(0.2)),
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context
+                              .read<FavoriteBloc>()
+                              .add(DeleteFavorite(favoriteID: fid));
+                        },
                         icon: const Icon(Icons.close),
                         color: Colors.white,
                       ),
@@ -101,16 +106,19 @@ Widget foodCard(context, Food food, String category) {
 }
 
 Widget _foodImage(context, Food food) {
-  return Container(
-    width: MediaQuery.of(context).size.width,
-    height: MediaQuery.of(context).size.width * .4,
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        image: DecorationImage(
-            image: CachedNetworkImageProvider(
-                '${food.image['data']['attributes']['url']}'),
-            // image: NetworkImage(food.image['data']['attributes']['url']),
-            fit: BoxFit.cover)),
+  return Hero(
+    tag: food.name,
+    child: Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.width * .4,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          image: DecorationImage(
+              image: CachedNetworkImageProvider(
+                  '${food.image['data']['attributes']['url']}'),
+              // image: NetworkImage(food.image['data']['attributes']['url']),
+              fit: BoxFit.cover)),
+    ),
   );
 }
 
@@ -130,4 +138,31 @@ Widget _foodDetails(context, Food food) {
       ],
     ),
   );
+}
+
+Widget foodHeader(BuildContext context, String title) {
+  return SliverAppBar(
+    floating: true,
+    pinned: true,
+    automaticallyImplyLeading: false,
+    elevation: .2,
+    title: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Text(title,
+            style: const TextStyle(
+                fontSize: 16,
+                color: KColors.kTextColorDark,
+                fontWeight: FontWeight.bold)),
+        basket()
+      ],
+    ),
+    backgroundColor: Colors.white,
+    expandedHeight: MediaQuery.of(context).size.height * .06,
+  );
+}
+
+Widget basket() {
+  return IconButton(onPressed: () {}, icon: Icon(Icons.shopping_basket));
 }

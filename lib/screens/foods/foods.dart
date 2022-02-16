@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:royalkitchen/bloc/food_bloc.dart';
-import 'package:royalkitchen/config/colors.dart';
 import 'package:royalkitchen/models/food_model.dart';
 import 'package:royalkitchen/screens/foods/components.dart';
 import 'package:royalkitchen/states/food_state.dart';
@@ -17,25 +16,9 @@ class Foods extends StatelessWidget {
   Widget _foodParent() {
     return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool isScrolled) {
-          return <Widget>[_foodHeader(context)];
+          return <Widget>[foodHeader(context, 'Browse Foods')];
         },
         body: _foodBody());
-  }
-
-  Widget _foodHeader(BuildContext context) {
-    return SliverAppBar(
-      floating: true,
-      pinned: true,
-      automaticallyImplyLeading: false,
-      elevation: .2,
-      title: const Text('Browse Foods',
-          style: TextStyle(
-              fontSize: 16,
-              color: KColors.kTextColorDark,
-              fontWeight: FontWeight.bold)),
-      backgroundColor: Colors.white,
-      expandedHeight: MediaQuery.of(context).size.height * .06,
-    );
   }
 
   Widget _foodBody() {
