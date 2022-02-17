@@ -18,8 +18,9 @@ class CustomerRepository {
             Uri.parse('$url?fields=firstname,other_names,email,phone,location'),
             headers: headers,
             body: encode)
-        .then((res) => jsonDecode(res.body))
-        .catchError((err) => print(err));
+        .then((res) {
+      return jsonDecode(res.body);
+    }).catchError((err) => print(err));
 
     Customer customer = Customer.fromJson(res['data']);
     String encodedCustomer = jsonEncode({

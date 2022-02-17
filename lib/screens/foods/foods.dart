@@ -50,6 +50,7 @@ class _FoodsState extends State<Foods> {
       child: SizedBox(
           height: 50,
           child: TextField(
+            autofocus: false,
             controller: _searchController,
             onChanged: (text) {
               text = text.toLowerCase();
@@ -62,21 +63,11 @@ class _FoodsState extends State<Foods> {
                 }).toList();
               });
             },
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
                 hintText: 'Search...',
-                suffixIcon: _searchController.text.isNotEmpty
-                    ? IconButton(
-                  splashRadius: 20,
-                        onPressed: () => _searchController.text = '',
-                        icon: const Icon(
-                          Icons.clear,
-                          size: 18,
-                          color: KColors.kTextColorDark,
-                        ))
-                    : null,
-                prefixIcon: const Icon(Icons.search,
-                    size: 18, color: KColors.kTextColorDark),
-                contentPadding: const EdgeInsets.only(bottom: 50 / 2)),
+                prefixIcon:
+                    Icon(Icons.search, size: 18, color: KColors.kTextColorDark),
+                contentPadding: EdgeInsets.only(bottom: 50 / 2)),
             style: const TextStyle(fontSize: 14, color: KColors.kTextColorDark),
           )),
     );

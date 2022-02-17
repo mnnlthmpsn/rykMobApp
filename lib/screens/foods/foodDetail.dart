@@ -57,7 +57,7 @@ class _FoodDetailsState extends State<FoodDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: _foodDetailParent(context));
+    return Scaffold(body: _foodDetailParent(context), backgroundColor: Colors.white);
   }
 
   Widget _foodDetailParent(BuildContext context) {
