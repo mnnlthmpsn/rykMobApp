@@ -1,38 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:royalkitchen/bloc/favorite_bloc.dart';
-import 'package:royalkitchen/config/colors.dart';
-import 'package:badges/badges.dart';
 import 'package:royalkitchen/states/favorite_state.dart';
 
 List<BottomNavigationBarItem> navItems = [
-  const BottomNavigationBarItem(
-      label: 'Home',
-      icon: Icon(Icons.home),
-      backgroundColor: KColors.kPrimaryColor),
-  const BottomNavigationBarItem(
-      label: 'Search',
-      icon: Icon(Icons.search_rounded),
-      backgroundColor: KColors.kPrimaryColor),
   BottomNavigationBarItem(
-    icon: BlocBuilder<FavoriteBloc, FavoriteState>(
-      builder: (BuildContext context, FavoriteState state) {
-        return Badge(
-          badgeContent: Text(
-            state.allFavorites.length.toString(),
-            style: const TextStyle(
-                color: KColors.kPrimaryColor, fontWeight: FontWeight.bold),
-          ),
-          child: const Icon(Icons.favorite_rounded),
-          badgeColor: KColors.kSecondaryColor,
-        );
-      },
-    ),
-    label: 'Favorites',
-    backgroundColor: KColors.kPrimaryColor,
+      label: 'Home',
+      icon: const Icon(Icons.home),
+      backgroundColor: Colors.grey.shade100),
+  BottomNavigationBarItem(
+    icon: const Icon(Icons.shopping_basket_rounded),
+    label: 'Basket',
+    backgroundColor: Colors.grey.shade100,
   ),
-  const BottomNavigationBarItem(
-      label: 'Others',
-      icon: Icon(Icons.archive),
-      backgroundColor: KColors.kPrimaryColor),
+  BottomNavigationBarItem(
+    icon: const Icon(Icons.favorite_rounded),
+    label: 'Favorites',
+    backgroundColor: Colors.grey.shade100,
+  ),
+  BottomNavigationBarItem(
+      label: 'Me',
+      icon: const Icon(Icons.person),
+      backgroundColor: Colors.grey.shade100),
 ];

@@ -15,7 +15,7 @@ class Favorites extends StatelessWidget {
   Widget _foodParent() {
     return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool isScrolled) {
-          return <Widget>[foodHeader(context, 'Browse Favorites')];
+          return <Widget>[foodHeader(context, 'Favorites', Icons.favorite)];
         },
         body: _foodBody());
   }

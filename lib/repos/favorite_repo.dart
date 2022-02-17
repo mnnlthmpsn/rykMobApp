@@ -57,18 +57,14 @@ class FavoriteRepository {
     }
   }
 
-  Future<Favorite> deleteFavorite(int favoriteID) async {
+  Future<void> deleteFavorite(int favoriteID) async {
     BotToast.showLoading();
     try {
-      dynamic res = await http.delete(Uri.parse('$url/$favoriteID'));
-      var js = jsonDecode(res.body);
-      Favorite temp = Favorite.fromJson(js['data']);
+      await http.delete(Uri.parse('$url/$favoriteID'));
       BotToast.closeAllLoading();
       BotToast.showText(
           text: 'Food removed successfully',
-          textStyle: const TextStyle(fontSize: 14));
-
-      return temp;
+          textStyle: const TextStyle(fontSize: 14, color: Colors.white));
     } catch (err) {
       BotToast.showText(
           text: 'Sorry an error occured',

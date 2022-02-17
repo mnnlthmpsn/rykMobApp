@@ -23,8 +23,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     });
 
     on<DeleteFavorite>((event, emit) async {
-      Favorite favorite = await favoriteRepo.deleteFavorite(event.favoriteID);
-      print(favorite.id);
+      await favoriteRepo.deleteFavorite(event.favoriteID);
     });
   }
 }

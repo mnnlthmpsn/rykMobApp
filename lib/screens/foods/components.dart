@@ -91,6 +91,9 @@ Widget foodCard(BuildContext context, Food food, String category, fid) {
                           context
                               .read<FavoriteBloc>()
                               .add(DeleteFavorite(favoriteID: fid));
+                          context.read<FavoriteBloc>().add(GetAllFavorites(
+                              custEmail:
+                                  context.read<CustomerBloc>().state.email));
                         },
                         icon: const Icon(Icons.close),
                         color: Colors.white,
@@ -106,19 +109,16 @@ Widget foodCard(BuildContext context, Food food, String category, fid) {
 }
 
 Widget _foodImage(context, Food food) {
-  return Hero(
-    tag: food.name,
-    child: Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.width * .4,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          image: DecorationImage(
-              image: CachedNetworkImageProvider(
-                  '${food.image['data']['attributes']['url']}'),
-              // image: NetworkImage(food.image['data']['attributes']['url']),
-              fit: BoxFit.cover)),
-    ),
+  return Container(
+    width: MediaQuery.of(context).size.width,
+    height: MediaQuery.of(context).size.width * .4,
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        image: DecorationImage(
+            image: CachedNetworkImageProvider(
+                '${food.image['data']['attributes']['url']}'),
+            // image: NetworkImage(food.image['data']['attributes']['url']),
+            fit: BoxFit.cover)),
   );
 }
 
@@ -130,32 +130,35 @@ Widget _foodDetails(context, Food food) {
       children: <Widget>[
         const SizedBox(height: 10),
         Text(food.name,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-        Text.rich(TextSpan(text: 'GHS ', children: <InlineSpan>[
-          TextSpan(
-              text: food.price.toString(), style: const TextStyle(fontSize: 13))
-        ]))
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+        Text.rich(TextSpan(
+            text: 'GHS ',
+            style: const TextStyle(fontSize: 11),
+            children: <InlineSpan>[
+              TextSpan(
+                  text: food.price.toString(),
+                  style: const TextStyle(fontSize: 12))
+            ]))
       ],
     ),
   );
 }
 
-Widget foodHeader(BuildContext context, String title) {
+Widget foodHeader(BuildContext context, String title, IconData icon) {
   return SliverAppBar(
     floating: true,
     pinned: true,
     automaticallyImplyLeading: false,
     elevation: .2,
     title: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
+        Icon(icon),
+        const SizedBox(width: 5),
         Text(title,
             style: const TextStyle(
                 fontSize: 16,
                 color: KColors.kTextColorDark,
-                fontWeight: FontWeight.bold)),
-        basket()
+                fontWeight: FontWeight.bold))
       ],
     ),
     backgroundColor: Colors.white,
@@ -164,5 +167,8 @@ Widget foodHeader(BuildContext context, String title) {
 }
 
 Widget basket() {
-  return IconButton(onPressed: () {}, icon: Icon(Icons.shopping_basket));
+  return IconButton(
+      onPressed: () {},
+      icon: const Icon(Icons.shopping_basket),
+      splashRadius: 25);
 }

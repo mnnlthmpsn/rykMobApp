@@ -88,13 +88,10 @@ class _FoodDetailsState extends State<FoodDetails> {
                 backgroundColor: KColors.kPrimaryColor,
                 expandedHeight: MediaQuery.of(context).size.height * .45,
                 flexibleSpace: FlexibleSpaceBar(
-                  background: Hero(
-                    tag: state.food.name,
-                    child: Image(
-                      fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(
-                          state.food.image['data']['attributes']['url']),
-                    ),
+                  background: Image(
+                    fit: BoxFit.cover,
+                    image: CachedNetworkImageProvider(
+                        state.food.image['data']['attributes']['url']),
                   ),
                 ),
               ),
@@ -161,11 +158,11 @@ class _FoodDetailsState extends State<FoodDetails> {
                         TextSpan(
                             text: state.food.price.toString(),
                             style: const TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w700)),
+                                fontSize: 12, fontWeight: FontWeight.w700)),
                         const TextSpan(text: ' | '),
                         TextSpan(
                             text: 'Delivery: GHS $delivery',
-                            style: const TextStyle(fontWeight: FontWeight.bold))
+                            style: const TextStyle(fontSize: 12))
                       ])),
                 ],
               ),
@@ -213,11 +210,10 @@ class _FoodDetailsState extends State<FoodDetails> {
                 title: Text(
                   item['title'],
                   style: const TextStyle(
-                      color: KColors.kTextColorDark, fontSize: 16),
+                      color: KColors.kTextColorDark, fontSize: 13),
                 ),
                 subtitle: Text('GHS ${item['price'].toString()}',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 12)),
+                    style: const TextStyle(fontSize: 12)),
                 value: item['checked'],
                 onChanged: (bool? val) {
                   setState(() => item['checked'] = val!);
@@ -298,11 +294,11 @@ class _FoodDetailsState extends State<FoodDetails> {
                 },
                 cursorColor: KColors.kTextColorDark,
                 style: const TextStyle(
-                    color: KColors.kTextColorDark, fontSize: 14),
+                    color: KColors.kTextColorDark, fontSize: 13),
                 decoration: const InputDecoration(
                     alignLabelWithHint: true,
                     labelText: 'Delivery Location',
-                    labelStyle: TextStyle(fontSize: 14),
+                    labelStyle: TextStyle(fontSize: 13),
                     contentPadding: EdgeInsets.only(bottom: 50 / 2, right: 10),
                     prefixIcon: Icon(
                       Icons.location_on_outlined,

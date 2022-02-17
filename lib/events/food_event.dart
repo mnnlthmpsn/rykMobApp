@@ -9,3 +9,10 @@ class SetSingleFood extends FoodEvent {
 
   SetSingleFood({required this.food});
 }
+
+
+class SetFoods extends FoodEvent {
+  final List<Food> foods;
+
+  SetFoods({ required this.foods });
+}

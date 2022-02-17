@@ -17,5 +17,9 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     on<SetSingleFood>((event, emit) async {
       emit(state.copyWith(food: event.food));
     });
+
+    on<SetFoods>((event, emit) async {
+      emit(state.copyWith(foods: event.foods));
+    });
   }
 }

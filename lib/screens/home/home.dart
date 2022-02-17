@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:royalkitchen/bloc/favorite_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:royalkitchen/models/customer_model.dart';
 import 'package:royalkitchen/screens/favorites/favorites.dart';
 import 'package:royalkitchen/screens/foods/foods.dart';
 import 'package:royalkitchen/screens/home/navbarItems.dart';
+import 'package:royalkitchen/screens/me/me.dart';
 import 'package:royalkitchen/utils/helpers.js.dart';
 
 class Home extends StatefulWidget {
@@ -51,7 +53,7 @@ class _HomeState extends State<Home> {
     setState(() {
       _selectedIndex = index;
       _pageController.animateToPage(index,
-          duration: const Duration(milliseconds: 150), curve: Curves.easeOut);
+          curve: Curves.easeInOut, duration: const Duration(milliseconds: 100));
     });
   }
 
@@ -60,21 +62,26 @@ class _HomeState extends State<Home> {
     return Scaffold(
         body: SizedBox.expand(
           child: PageView(
+            physics: const NeverScrollableScrollPhysics(),
             controller: _pageController,
             onPageChanged: (index) => setState(() => _selectedIndex = index),
             children: const <Widget>[
               Foods(),
               Text('Search'),
               Favorites(),
-              Center(child: Text('CEnter'))
+              Me()
             ],
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           enableFeedback: true,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
           currentIndex: _selectedIndex,
-          selectedItemColor: KColors.kSecondaryColor,
-          unselectedItemColor: Colors.white,
+          selectedFontSize: 12,
+          unselectedFontSize: 12,
+          selectedItemColor: KColors.kPrimaryColor,
+          unselectedItemColor: KColors.kTextColorDark,
           onTap: onItemTapped,
           items: navItems.map((item) => item).toList(),
         ));
