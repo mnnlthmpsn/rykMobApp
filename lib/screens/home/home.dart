@@ -67,14 +67,15 @@ class _HomeState extends State<Home> {
             onPageChanged: (index) => setState(() => _selectedIndex = index),
             children: const <Widget>[
               Foods(),
-              Text('Search'),
               Favorites(),
+              Center(child: Text('Orders')),
               Me()
             ],
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           enableFeedback: true,
+          elevation: 0,
           showSelectedLabels: true,
           showUnselectedLabels: true,
           currentIndex: _selectedIndex,

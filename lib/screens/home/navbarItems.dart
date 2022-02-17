@@ -9,13 +9,13 @@ List<BottomNavigationBarItem> navItems = [
       icon: const Icon(Icons.home),
       backgroundColor: Colors.grey.shade100),
   BottomNavigationBarItem(
-    icon: const Icon(Icons.shopping_basket_rounded),
-    label: 'Basket',
+    icon: const Icon(Icons.favorite_rounded),
+    label: 'Favorites',
     backgroundColor: Colors.grey.shade100,
   ),
   BottomNavigationBarItem(
-    icon: const Icon(Icons.favorite_rounded),
-    label: 'Favorites',
+    icon: const Icon(Icons.insert_drive_file),
+    label: 'Orders',
     backgroundColor: Colors.grey.shade100,
   ),
   BottomNavigationBarItem(
