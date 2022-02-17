@@ -7,7 +7,6 @@ class Me extends StatelessWidget {
 
   static const List<Map<String, dynamic>> menuItems = [
     {'title': 'Account Details', 'route': 'account_details'},
-    {'title': 'Orders', 'route': 'orders'},
     {'title': 'About', 'route': 'about'},
     {'title': 'Contact', 'route': 'contact'},
     {'title': 'Report Issue', 'route': 'report'},
