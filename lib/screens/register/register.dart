@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:royalkitchen/bloc/customer_bloc.dart';
@@ -16,6 +15,15 @@ class Register extends StatelessWidget {
 
   void _setFirstTime() => storeInLocalStorage('first_time', false, 'bool');
 
+  bool isEmail(String em) {
+    String p =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+    RegExp regExp = new RegExp(p);
+
+    return regExp.hasMatch(em);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,16 +35,16 @@ class Register extends StatelessWidget {
 
   Widget _registerHeader() {
     return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 50),
+      padding: const EdgeInsets.only(top: 10, bottom: 30),
       child: SizedBox(
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const <Widget>[
-            Text('One more thing...',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-            Text('We want to know you', style: TextStyle(fontSize: 18))
+            Text('Before we continue...',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            Text('We want to know you', style: TextStyle(fontSize: 14))
           ],
         ),
       ),
@@ -55,11 +63,11 @@ class Register extends StatelessWidget {
             children: <Widget>[
               _registerHeader(),
               _firstname(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               _otherNames(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               _email(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               _phone(),
               const SizedBox(height: 15),
               _registerBtn()
@@ -69,119 +77,138 @@ class Register extends StatelessWidget {
   }
 
   Widget _firstname() {
-    return SizedBox(
-      width: double.infinity,
-      height: 45,
-      child: BlocBuilder<CustomerBloc, CustomerState>(
-        builder: (context, state) {
-          return TextFormField(
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            textAlignVertical: TextAlignVertical.top,
-            validator: (value) => null,
-            onChanged: (value) => context
-                .read<CustomerBloc>()
-                .add(FirstnameChanged(firstname: value)),
-            cursorColor: KColors.kTextColorDark,
-            style: const TextStyle(color: KColors.kTextColorDark, fontSize: 16),
-            decoration: const InputDecoration(
-                labelText: 'Firstname',
-                labelStyle: TextStyle(fontSize: 16),
-                prefixIcon: Icon(Icons.person_add_alt_1_sharp, size: 16,)),
-          );
-        },
-      ),
+    return BlocBuilder<CustomerBloc, CustomerState>(
+      builder: (context, state) {
+        return TextFormField(
+          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.next,
+          textAlignVertical: TextAlignVertical.top,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Field is required';
+            }
+            return null;
+          },
+          onChanged: (value) => context
+              .read<CustomerBloc>()
+              .add(FirstnameChanged(firstname: value)),
+          cursorColor: KColors.kTextColorDark,
+          style: const TextStyle(color: KColors.kTextColorDark, fontSize: 16),
+          decoration: const InputDecoration(
+              labelText: 'Firstname',
+              labelStyle: TextStyle(fontSize: 16),
+              prefixIcon: Icon(
+                Icons.person_add_alt_1_sharp,
+                size: 16,
+              )),
+        );
+      },
     );
   }
 
   Widget _otherNames() {
-    return SizedBox(
-      width: double.infinity,
-      height: 45,
-      child: BlocBuilder<CustomerBloc, CustomerState>(
-        builder: (BuildContext context, CustomerState state) {
-          return TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
-            textAlignVertical: TextAlignVertical.top,
-            validator: (value) => null,
-            onChanged: (value) => context
-                .read<CustomerBloc>()
-                .add(OthernamesChanged(otherNames: value)),
-            cursorColor: KColors.kTextColorDark,
-            style: const TextStyle(color: KColors.kTextColorDark, fontSize: 16),
-            decoration: const InputDecoration(
-                labelStyle: TextStyle(fontSize: 16),
-                labelText: 'Other Names',
-                prefixIcon: Icon(Icons.person, size: 16)),
-          );
-        },
-      ),
+    return BlocBuilder<CustomerBloc, CustomerState>(
+      builder: (BuildContext context, CustomerState state) {
+        return TextFormField(
+          keyboardType: TextInputType.emailAddress,
+          textInputAction: TextInputAction.next,
+          textAlignVertical: TextAlignVertical.top,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Field is required';
+            }
+            return null;
+          },
+          onChanged: (value) => context
+              .read<CustomerBloc>()
+              .add(OthernamesChanged(otherNames: value)),
+          cursorColor: KColors.kTextColorDark,
+          style: const TextStyle(color: KColors.kTextColorDark, fontSize: 16),
+          decoration: const InputDecoration(
+              labelStyle: TextStyle(fontSize: 16),
+              labelText: 'Other Names',
+              prefixIcon: Icon(Icons.person, size: 16)),
+        );
+      },
     );
   }
 
   Widget _email() {
-    return SizedBox(
-      width: double.infinity,
-      height: 45,
-      child: BlocBuilder<CustomerBloc, CustomerState>(
-        builder: (BuildContext context, CustomerState state) {
-          return TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            textAlignVertical: TextAlignVertical.top,
-            textInputAction: TextInputAction.next,
-            validator: (value) => null,
-            onChanged: (value) =>
-                context.read<CustomerBloc>().add(EmailChanged(email: value)),
-            cursorColor: KColors.kTextColorDark,
-            style: const TextStyle(color: KColors.kTextColorDark, fontSize: 16),
-            decoration: const InputDecoration(
-                labelStyle: TextStyle(fontSize: 16),
-                labelText: 'Email',
-                prefixIcon: Icon(Icons.attach_email_outlined, size: 16)),
-          );
-        },
-      ),
+    return BlocBuilder<CustomerBloc, CustomerState>(
+      builder: (BuildContext context, CustomerState state) {
+        return TextFormField(
+          keyboardType: TextInputType.emailAddress,
+          textAlignVertical: TextAlignVertical.top,
+          textInputAction: TextInputAction.next,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Field is required';
+            }
+            if (value.isNotEmpty && isEmail(value) == false) {
+              return 'Check your email';
+            }
+
+            return null;
+          },
+          onChanged: (value) =>
+              context.read<CustomerBloc>().add(EmailChanged(email: value)),
+          cursorColor: KColors.kTextColorDark,
+          style: const TextStyle(color: KColors.kTextColorDark, fontSize: 16),
+          decoration: const InputDecoration(
+              labelStyle: TextStyle(fontSize: 16),
+              labelText: 'Email',
+              prefixIcon: Icon(Icons.attach_email_outlined, size: 16)),
+        );
+      },
     );
   }
 
   Widget _phone() {
-    return SizedBox(
-      width: double.infinity,
-      height: 45,
-      child: BlocBuilder<CustomerBloc, CustomerState>(
-        builder: (BuildContext context, CustomerState state) {
-          return TextFormField(
-            keyboardType: TextInputType.phone,
-            textInputAction: TextInputAction.done,
-            textAlignVertical: TextAlignVertical.top,
-            validator: (value) => null,
-            onChanged: (value) =>
-                context.read<CustomerBloc>().add(PhoneChanged(phone: value)),
-            cursorColor: KColors.kTextColorDark,
-            style: const TextStyle(color: KColors.kTextColorDark, fontSize: 16),
-            decoration: const InputDecoration(
-                labelStyle: TextStyle(fontSize: 16),
-                labelText: 'Phone',
-                prefixIcon: Icon(Icons.phone_iphone_outlined, size: 16)),
-          );
-        },
-      ),
+    return BlocBuilder<CustomerBloc, CustomerState>(
+      builder: (BuildContext context, CustomerState state) {
+        return TextFormField(
+          keyboardType: TextInputType.phone,
+          textInputAction: TextInputAction.done,
+          textAlignVertical: TextAlignVertical.top,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Field is required';
+            }
+
+            if (value.isNotEmpty && value.length < 10) {
+              return 'Phone has to be 10 digits';
+            }
+
+            return null;
+          },
+          onChanged: (value) =>
+              context.read<CustomerBloc>().add(PhoneChanged(phone: value)),
+          cursorColor: KColors.kTextColorDark,
+          style: const TextStyle(color: KColors.kTextColorDark, fontSize: 16),
+          decoration: const InputDecoration(
+              labelStyle: TextStyle(fontSize: 16),
+              labelText: 'Phone',
+              prefixIcon: Icon(Icons.phone_iphone_outlined, size: 16)),
+        );
+      },
     );
   }
 
   Widget _registerBtn() {
     return SizedBox(
       width: double.infinity,
-      height: 55,
+      height: 45,
       child: (BlocConsumer<CustomerBloc, CustomerState>(
         builder: (BuildContext context, CustomerState state) {
           return ElevatedButton(
-            onPressed: () =>
-                context.read<CustomerBloc>().add(RegisterSubmitted()),
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                context.read<CustomerBloc>().add(RegisterSubmitted());
+              }
+            },
             child: Text(
                 state.formStatus is FormSubmitting ? 'loading...' : 'Continue',
-                style: const TextStyle(fontSize: 16, color: Colors.white)),
+                style: const TextStyle(fontSize: 14, color: Colors.white)),
           );
         },
         listener: (BuildContext context, CustomerState state) {
@@ -191,6 +218,11 @@ class Register extends StatelessWidget {
 
             // navigate to home
             newPageDestroyPrevious(context, 'home');
+          }
+          if (state.formStatus is SubmissionFailed) {
+            BotToast.showText(
+                text: 'Sorry an error occured',
+                textStyle: TextStyle(fontSize: 14, color: Colors.white));
           }
         },
       )),

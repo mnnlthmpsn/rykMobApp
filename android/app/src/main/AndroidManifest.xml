@@ -2,9 +2,10 @@
     package="com.example.royalkitchen">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="royalkitchen"
+        android:label="Royal Kitchen"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+       >
         <activity
             android:name=".MainActivity"
             android:exported="true"

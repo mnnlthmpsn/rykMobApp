@@ -1,30 +1,34 @@
 import 'package:royalkitchen/repos/order_repo.dart';
 
 class Order {
+  OrderRepository orderRepository = OrderRepository();
+
+  final int? id;
   final int food;
   final String delivery_location;
+  final bool fulfilled;
   final String extra_note;
   final List<Extras> extras;
   final double total_price;
   final String customer;
 
-  Order(this.food, this.delivery_location, this.extra_note, this.total_price,
-      this.customer, this.extras);
+  Order(this.id, this.food, this.delivery_location, this.extra_note,
+      this.total_price, this.customer, this.extras,
+      {this.fulfilled = false});
 
-  void addOrder() async {
-    dynamic payload = {
-      'data': {
-        'food': food,
-        'delivery_location': delivery_location,
-        'extra_note': extra_note,
-        'extras': extras.map((e) => Extras(e.title, e.price).toJson()).toList(),
-        'total_price': total_price,
-        'customer': customer
-      }
-    };
+  Order.fromJson(dynamic json)
+      : id = json['id'],
+        food = json['attributes']['food']['data']['id'],
+        delivery_location = json['attributes']['delivery_location'],
+        extra_note = json['attributes']['extra_note'],
+        fulfilled = json['attributes']['fulfilled'],
+        extras = (json['attributes']['extras'] as List)
+            .map((extra) => Extras.fromJson(extra))
+            .toList(),
+        total_price =
+            double.parse(json['attributes']['total_price'].toString()),
+        customer = json['attributes']['customer'];
 
-    OrderRepository.addOrder(payload);
-  }
 }
 
 class Extras {

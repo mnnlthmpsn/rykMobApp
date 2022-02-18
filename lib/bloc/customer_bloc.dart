@@ -61,7 +61,6 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
         emit(state.copyWith(formStatus: SubmissionSuccess()));
       } catch (e) {
         print(e);
-        print('an error occured');
         emit(state.copyWith(formStatus: SubmissionFailed(e)));
       } finally {
         emit(state.copyWith(formStatus: const InitialFormStatus()));

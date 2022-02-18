@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:royalkitchen/bloc/favorite_bloc.dart';
 import 'package:royalkitchen/bloc/food_bloc.dart';
+import 'package:royalkitchen/bloc/order_bloc.dart';
 import 'package:royalkitchen/config/colors.dart';
 import 'package:royalkitchen/events/favorite_event.dart';
 import 'package:royalkitchen/events/food_event.dart';
+import 'package:royalkitchen/events/order_event.dart';
 import 'package:royalkitchen/models/customer_model.dart';
 import 'package:royalkitchen/screens/favorites/favorites.dart';
 import 'package:royalkitchen/screens/foods/foods.dart';
 import 'package:royalkitchen/screens/home/navbarItems.dart';
 import 'package:royalkitchen/screens/me/me.dart';
+import 'package:royalkitchen/screens/orders/orders.dart';
 import 'package:royalkitchen/utils/helpers.js.dart';
 
 class Home extends StatefulWidget {
@@ -41,6 +44,9 @@ class _HomeState extends State<Home> {
     context
         .read<FavoriteBloc>()
         .add(GetAllFavorites(custEmail: customer.email));
+
+  //  get customer orders
+    context.read<OrderBloc>().add(SetOrders(customer: customer.email));
   }
 
   @override
@@ -68,7 +74,7 @@ class _HomeState extends State<Home> {
             children: const <Widget>[
               Foods(),
               Favorites(),
-              Center(child: Text('Orders')),
+              Orders(),
               Me()
             ],
           ),

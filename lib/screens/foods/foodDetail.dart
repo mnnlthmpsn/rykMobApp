@@ -7,8 +7,10 @@ import 'package:google_place/google_place.dart';
 import 'package:royalkitchen/bloc/customer_bloc.dart';
 import 'package:royalkitchen/bloc/favorite_bloc.dart';
 import 'package:royalkitchen/bloc/food_bloc.dart';
+import 'package:royalkitchen/bloc/order_bloc.dart';
 import 'package:royalkitchen/config/colors.dart';
 import 'package:royalkitchen/events/favorite_event.dart';
+import 'package:royalkitchen/events/order_event.dart';
 import 'package:royalkitchen/models/food_model.dart';
 import 'package:royalkitchen/models/order_model.dart';
 import 'package:royalkitchen/states/food_state.dart';
@@ -57,7 +59,8 @@ class _FoodDetailsState extends State<FoodDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: _foodDetailParent(context), backgroundColor: Colors.white);
+    return Scaffold(
+        body: _foodDetailParent(context), backgroundColor: Colors.white);
   }
 
   Widget _foodDetailParent(BuildContext context) {
@@ -401,6 +404,7 @@ class _FoodDetailsState extends State<FoodDetails> {
           temp.map((foodExtra) => Extras.fromJson(foodExtra)).toList();
 
       Order order = Order(
+          0,
           context.read<FoodBloc>().state.food.id!,
           _searchFieldController.text,
           _extraNotesController.value.text,
@@ -408,8 +412,7 @@ class _FoodDetailsState extends State<FoodDetails> {
           context.read<CustomerBloc>().state.email,
           selectedExtras);
 
-      order.addOrder();
-      newPageDestroyPrevious(context, 'home');
+      context.read<OrderBloc>().add(AddOrder(order: order));
     }
   }
 }

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:royalkitchen/bloc/favorite_bloc.dart';
-import 'package:royalkitchen/states/favorite_state.dart';
 
 List<BottomNavigationBarItem> navItems = [
   BottomNavigationBarItem(
-      label: 'Home',
-      icon: const Icon(Icons.home),
+      label: 'Foods',
+      icon: const Icon(Icons.restaurant_rounded),
       backgroundColor: Colors.grey.shade100),
   BottomNavigationBarItem(
     icon: const Icon(Icons.favorite_rounded),

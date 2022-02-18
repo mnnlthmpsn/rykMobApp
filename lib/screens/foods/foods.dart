@@ -26,7 +26,7 @@ class _FoodsState extends State<Foods> {
   Widget _foodParent() {
     return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool isScrolled) {
-          return <Widget>[foodHeader(context, 'Foods', Icons.home)];
+          return <Widget>[foodHeader(context, 'Foods', Icons.restaurant_rounded)];
         },
         body: _foodBody());
   }

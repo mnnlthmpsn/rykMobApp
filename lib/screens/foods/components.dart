@@ -152,13 +152,12 @@ Widget foodHeader(BuildContext context, String title, IconData icon) {
     elevation: .2,
     title: Row(
       children: <Widget>[
-        Icon(icon),
+        Icon(icon, size: 18),
         const SizedBox(width: 5),
         Text(title,
             style: const TextStyle(
                 fontSize: 16,
-                color: KColors.kTextColorDark,
-                fontWeight: FontWeight.bold))
+                color: KColors.kTextColorDark))
       ],
     ),
     backgroundColor: Colors.white,

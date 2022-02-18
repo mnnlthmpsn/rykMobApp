@@ -28,13 +28,12 @@ class Me extends StatelessWidget {
 
   Widget _meBody() {
     return ListView.separated(
-        shrinkWrap: true,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: ListTile(
               enableFeedback: true,
-              onTap: (){},
+              onTap: () {},
               title: Text(menuItems[index]['title'],
                   style: const TextStyle(
                       fontSize: 14, color: KColors.kTextColorDark)),

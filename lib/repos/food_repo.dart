@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -18,6 +20,10 @@ class FoodRepository {
           .map((food) => Food.fromJson(food))
           .toList();
     } catch (err) {
+      if(err is SocketException){
+        //treat SocketException
+        print("Socket exception occured");
+      }
       BotToast.showText(text: 'Sorry an error occured', textStyle: const TextStyle(fontSize: 14, color: Colors.white));
       rethrow;
     } finally {
